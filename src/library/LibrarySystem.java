@@ -15,7 +15,10 @@ public class LibrarySystem {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        new Author().setVisible(true);
+        new Member().setVisible(true);
         new Employee().setVisible(true);
+        new Publisher().setVisible(true);
     }
     
 }
