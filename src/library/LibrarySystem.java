@@ -19,6 +19,7 @@ public class LibrarySystem {
         new Member().setVisible(true);
         new Employee().setVisible(true);
         new Publisher().setVisible(true);
+        new Book().setVisible(true);
     }
     
 }
