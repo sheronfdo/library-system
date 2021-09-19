@@ -161,6 +161,11 @@ public class Position extends javax.swing.JFrame {
         butEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butEdit.setMinimumSize(new java.awt.Dimension(75, 25));
         butEdit.setPreferredSize(new java.awt.Dimension(80, 30));
+        butEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butEditActionPerformed(evt);
+            }
+        });
 
         butCancel.setBackground(new java.awt.Color(255, 204, 0));
         butCancel.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -436,6 +441,16 @@ public class Position extends javax.swing.JFrame {
         bookReturn = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 9).toString());
         bookRenew = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 10).toString());
         
+        txtDescription.setText(description);
+        cBoxEmployee.setSelected((employee == 1));
+        cBoxMember.setSelected((member == 1));
+        cBoxAuthor.setSelected((author == 1));
+        cBoxPublisher.setSelected((publisher == 1));
+        cBoxPosition.setSelected((position == 1));
+        cBoxBook.setSelected((book == 1));
+        cBoxCheckout.setSelected((bookCheckout == 1));
+        cBoxReturn.setSelected((bookReturn == 1));
+        cBoxRenew.setSelected((bookRenew == 1));
         // TODO add your handling code here:
     }//GEN-LAST:event_posTableMouseClicked
 
@@ -451,6 +466,34 @@ public class Position extends javax.swing.JFrame {
             Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_butDeleteActionPerformed
+
+    private void butEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEditActionPerformed
+        String description = txtDescription.getText();
+        int employee = (cBoxEmployee.isSelected()) ? 1 : 0;
+        int member = (cBoxMember.isSelected()) ? 1 : 0;
+        int author = (cBoxAuthor.isSelected()) ? 1 : 0;
+        int publisher = (cBoxPublisher.isSelected()) ? 1 : 0;
+        int position = (cBoxPosition.isSelected()) ? 1 : 0;
+        int book = (cBoxBook.isSelected()) ? 1 : 0;
+        int bookCheckout = (cBoxCheckout.isSelected()) ? 1 : 0;
+        int bookReturn = (cBoxReturn.isSelected()) ? 1 : 0;
+        int bookRenew = (cBoxRenew.isSelected()) ? 1 : 0;
+
+        String sql = "UPDATE `staffposition` SET `description`='"+description+"',"
+                + "`employee`="+employee+",`member`="+member+",`author`="+author+",`publisher`="+publisher+","
+                + "`position`="+position+",`book`="+book+",`checkout`="+bookCheckout+",`return`="+bookReturn+","
+                + "`renew`="+bookRenew+" WHERE `posID`="+id+"";
+        try {
+            DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Position Updated");
+            fillTable();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butEditActionPerformed
 
     /**
      * @param args the command line arguments
