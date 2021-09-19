@@ -56,6 +56,7 @@ public class Employee extends javax.swing.JFrame {
         butDelete = new javax.swing.JButton();
         butEdit = new javax.swing.JButton();
         butCancel = new javax.swing.JButton();
+        comboPosition = new javax.swing.JComboBox<>();
         tablePanel = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -152,6 +153,10 @@ public class Employee extends javax.swing.JFrame {
         butCancel.setMinimumSize(new java.awt.Dimension(75, 25));
         butCancel.setPreferredSize(new java.awt.Dimension(80, 30));
 
+        comboPosition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Position" }));
+        comboPosition.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)), "Position"));
+        comboPosition.setPreferredSize(new java.awt.Dimension(98, 45));
+
         javax.swing.GroupLayout formPanelLayout = new javax.swing.GroupLayout(formPanel);
         formPanel.setLayout(formPanelLayout);
         formPanelLayout.setHorizontalGroup(
@@ -173,7 +178,8 @@ public class Employee extends javax.swing.JFrame {
                         .addComponent(butEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(butCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(comboPosition, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         formPanelLayout.setVerticalGroup(
@@ -191,6 +197,8 @@ public class Employee extends javax.swing.JFrame {
                 .addComponent(txtDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(genderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(comboPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(butInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,7 +220,7 @@ public class Employee extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Address", "Telephone", "NIC", "Birthday", "Gender", "Status"
+                "ID", "Name", "Address", "Telephone", "NIC", "Birthday", "Gender", "Position", "Status"
             }
         ));
         empTable.setFocusable(false);
@@ -297,7 +305,7 @@ public class Employee extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -327,6 +335,7 @@ public class Employee extends javax.swing.JFrame {
     private javax.swing.JButton butEdit;
     private javax.swing.JButton butInsert;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> comboPosition;
     private javax.swing.JTable empTable;
     private javax.swing.JPanel formPanel;
     private javax.swing.JPanel genderPanel;

@@ -19,6 +19,7 @@ public class Book extends javax.swing.JFrame {
      */
     public Book() {
         initComponents();
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
     }
     public void setToTable() {

@@ -16,6 +16,7 @@ public class User extends javax.swing.JFrame {
      */
     public User() {
         initComponents();
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
     }
 
     /**

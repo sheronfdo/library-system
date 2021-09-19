@@ -19,6 +19,7 @@ public class Publisher extends javax.swing.JFrame {
      */
     public Publisher() {
         initComponents();
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
     }
     
