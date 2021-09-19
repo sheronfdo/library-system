@@ -5,8 +5,15 @@
  */
 package library;
 
+import com.library.db.DBConnect;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -17,10 +24,22 @@ public class Employee extends javax.swing.JFrame {
     /**
      * Creates new form Employee
      */
-    public Employee() {
+    public Employee() throws ClassNotFoundException, SQLException{
         initComponents();
+        
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
+        loadPosition();
+    }
+    
+    public void loadPosition() throws ClassNotFoundException, SQLException{
+        ResultSet rs = DBConnect.getFromDB("select * from staffposition where status=1");
+        Vector v = new Vector();
+        while(rs.next()){
+            String data = rs.getInt("posID")+" - "+rs.getString("description");
+            v.add(data);
+        }
+        comboPosition.setModel(new DefaultComboBoxModel(v));
     }
     
     public void setToTable(){
@@ -324,7 +343,13 @@ public class Employee extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Employee().setVisible(true);
+                try {
+                    new Employee().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
