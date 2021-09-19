@@ -5,6 +5,8 @@
  */
 package library;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author Jamit
@@ -14,7 +16,7 @@ public class LibrarySystem {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
         new Author().setVisible(true);
         new Member().setVisible(true);
         new Employee().setVisible(true);
