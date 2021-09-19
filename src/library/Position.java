@@ -5,8 +5,12 @@
  */
 package library;
 
+import com.library.db.DBConnect;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -42,11 +46,21 @@ public class Position extends javax.swing.JFrame {
         userName = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         formPanel = new javax.swing.JPanel();
-        txtName = new javax.swing.JTextField();
+        txtDescription = new javax.swing.JTextField();
         butInsert = new javax.swing.JButton();
         butDelete = new javax.swing.JButton();
         butEdit = new javax.swing.JButton();
         butCancel = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        cBoxEmployee = new javax.swing.JCheckBox();
+        cBoxMember = new javax.swing.JCheckBox();
+        cBoxAuthor = new javax.swing.JCheckBox();
+        cBoxPublisher = new javax.swing.JCheckBox();
+        cBoxReturn = new javax.swing.JCheckBox();
+        cBoxCheckout = new javax.swing.JCheckBox();
+        cBoxPosition = new javax.swing.JCheckBox();
+        cBoxBook = new javax.swing.JCheckBox();
+        cBoxRenew = new javax.swing.JCheckBox();
         tablePanel = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -54,7 +68,6 @@ public class Position extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Libra 1.0 - Staff Positions");
-        setPreferredSize(new java.awt.Dimension(1000, 600));
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -72,8 +85,8 @@ public class Position extends javax.swing.JFrame {
         formPanel.setBackground(new java.awt.Color(255, 255, 255));
         formPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0), 3), "Position Information"));
 
-        txtName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Description", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        txtDescription.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtDescription.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Description", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
         butInsert.setBackground(new java.awt.Color(255, 204, 0));
         butInsert.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -81,6 +94,11 @@ public class Position extends javax.swing.JFrame {
         butInsert.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butInsert.setMinimumSize(new java.awt.Dimension(75, 25));
         butInsert.setPreferredSize(new java.awt.Dimension(80, 30));
+        butInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butInsertActionPerformed(evt);
+            }
+        });
 
         butDelete.setBackground(new java.awt.Color(255, 204, 0));
         butDelete.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -103,15 +121,115 @@ public class Position extends javax.swing.JFrame {
         butCancel.setMinimumSize(new java.awt.Dimension(75, 25));
         butCancel.setPreferredSize(new java.awt.Dimension(80, 30));
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Accessbility", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+
+        cBoxEmployee.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxEmployee.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxEmployee.setText("Employee");
+        cBoxEmployee.setIconTextGap(10);
+
+        cBoxMember.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxMember.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxMember.setText("Member");
+        cBoxMember.setIconTextGap(10);
+
+        cBoxAuthor.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxAuthor.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxAuthor.setText("Author");
+        cBoxAuthor.setIconTextGap(10);
+
+        cBoxPublisher.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxPublisher.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxPublisher.setText("Publisher");
+        cBoxPublisher.setIconTextGap(10);
+
+        cBoxReturn.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxReturn.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxReturn.setSelected(true);
+        cBoxReturn.setText("Book Return");
+        cBoxReturn.setIconTextGap(10);
+
+        cBoxCheckout.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxCheckout.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxCheckout.setSelected(true);
+        cBoxCheckout.setText("Book Checkout");
+        cBoxCheckout.setIconTextGap(10);
+
+        cBoxPosition.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxPosition.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxPosition.setText("Staff Position");
+        cBoxPosition.setIconTextGap(10);
+
+        cBoxBook.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxBook.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxBook.setSelected(true);
+        cBoxBook.setText("Book");
+        cBoxBook.setIconTextGap(10);
+
+        cBoxRenew.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxRenew.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxRenew.setSelected(true);
+        cBoxRenew.setText("Book Renew");
+        cBoxRenew.setIconTextGap(10);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cBoxBook, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cBoxPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cBoxRenew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cBoxReturn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cBoxCheckout, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                                .addComponent(cBoxPublisher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cBoxAuthor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cBoxMember, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cBoxEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cBoxEmployee)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cBoxMember)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cBoxAuthor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cBoxPublisher)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cBoxPosition)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cBoxBook)
+                .addGap(3, 3, 3)
+                .addComponent(cBoxCheckout)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cBoxReturn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cBoxRenew)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout formPanelLayout = new javax.swing.GroupLayout(formPanel);
         formPanel.setLayout(formPanelLayout);
         formPanelLayout.setHorizontalGroup(
             formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(formPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtName)
-                    .addGroup(formPanelLayout.createSequentialGroup()
+                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtDescription, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, formPanelLayout.createSequentialGroup()
                         .addComponent(butInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(butDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -126,14 +244,16 @@ public class Position extends javax.swing.JFrame {
             formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(formPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(299, 299, 299)
+                .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(butInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tablePanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -148,7 +268,7 @@ public class Position extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Description", "Status"
+                "ID", "Description", "Status", "Employee", "Member", "Author", "Publisher", "Staff Position", "Book", "Book Checkout", "Book Return", "Book  Renew"
             }
         ));
         posTable.setFocusable(false);
@@ -222,6 +342,33 @@ public class Position extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void butInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInsertActionPerformed
+        String description = txtDescription.getText();
+        int employee = (cBoxEmployee.isSelected())? 1:0;
+        int member = (cBoxMember.isSelected())? 1:0;
+        int author = (cBoxAuthor.isSelected())? 1:0;
+        int publisher = (cBoxPublisher.isSelected())? 1:0;
+        int position = (cBoxPosition.isSelected())? 1:0;
+        int book = (cBoxBook.isSelected())? 1:0;
+        int bookCheckout = (cBoxCheckout.isSelected())? 1:0;
+        int bookReturn = (cBoxReturn.isSelected())? 1:0;
+        int bookRenew = (cBoxRenew.isSelected())? 1:0;
+        
+        String sql = "INSERT INTO `staffposition`(`description`, `employee`,"
+                + " `member`, `author`, `publisher`, `position`, `book`, `checkout`,"
+                + " `return`, `renew`) "
+                + "VALUES ('"+description+"',"+employee+","+member+","+author+","+publisher+","+position+""
+                + ","+book+","+bookCheckout+","+bookReturn+","+bookRenew+")";
+        try {
+            DBConnect.pushToDB(sql);
+// TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butInsertActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -233,7 +380,7 @@ public class Position extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -262,13 +409,23 @@ public class Position extends javax.swing.JFrame {
     private javax.swing.JButton butDelete;
     private javax.swing.JButton butEdit;
     private javax.swing.JButton butInsert;
+    private javax.swing.JCheckBox cBoxAuthor;
+    private javax.swing.JCheckBox cBoxBook;
+    private javax.swing.JCheckBox cBoxCheckout;
+    private javax.swing.JCheckBox cBoxEmployee;
+    private javax.swing.JCheckBox cBoxMember;
+    private javax.swing.JCheckBox cBoxPosition;
+    private javax.swing.JCheckBox cBoxPublisher;
+    private javax.swing.JCheckBox cBoxRenew;
+    private javax.swing.JCheckBox cBoxReturn;
     private javax.swing.JPanel formPanel;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTable posTable;
     private javax.swing.JPanel tablePanel;
     private javax.swing.JLabel title;
-    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JLabel userName;
     // End of variables declaration//GEN-END:variables
