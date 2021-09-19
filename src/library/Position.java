@@ -42,12 +42,15 @@ public class Position extends javax.swing.JFrame {
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
-        fillTable();
+        fillTable(null);
     }
     DefaultTableModel tableModel;
 
-    public void fillTable() throws ClassNotFoundException, SQLException {
-        ResultSet rs = DBConnect.getFromDB("select * from staffposition");
+    public void fillTable(String sql) throws ClassNotFoundException, SQLException {
+        if(sql == null){
+            sql = "select * from staffposition";
+        }
+        ResultSet rs = DBConnect.getFromDB(sql);
         tableModel = (DefaultTableModel) posTable.getModel();
         tableModel.setRowCount(0);
         while (rs.next()) {
@@ -319,6 +322,11 @@ public class Position extends javax.swing.JFrame {
 
         txtSearch.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         posTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         posTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -425,7 +433,8 @@ public class Position extends javax.swing.JFrame {
         try {
             DBConnect.pushToDB(sql);
             JOptionPane.showMessageDialog(this, "Position inserted");
-            fillTable();
+            fillTable(null);
+            clearAll();
 // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
@@ -464,7 +473,8 @@ public class Position extends javax.swing.JFrame {
         try {
             DBConnect.pushToDB("DELETE FROM `staffposition` WHERE posID="+id);
             JOptionPane.showMessageDialog(this, "Position deleted");
-            fillTable();
+            fillTable(null);
+            clearAll();
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
@@ -492,7 +502,8 @@ public class Position extends javax.swing.JFrame {
         try {
             DBConnect.pushToDB(sql);
             JOptionPane.showMessageDialog(this, "Position Updated");
-            fillTable();
+            fillTable(null);
+            clearAll();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -501,7 +512,7 @@ public class Position extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_butEditActionPerformed
 
-    private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
+    public void clearAll(){
         txtDescription.setText("");
         cBoxEmployee.setSelected(false);
         cBoxMember.setSelected(false);
@@ -513,6 +524,7 @@ public class Position extends javax.swing.JFrame {
         cBoxReturn.setSelected(true);
         cBoxRenew.setSelected(true);
         
+        id = 0;
         description = null;
         employee = 0;
         member = 0;
@@ -523,7 +535,22 @@ public class Position extends javax.swing.JFrame {
         bookCheckout = 0;
         bookReturn = 0;
         bookRenew = 0;
+    }
+    
+    private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
+        clearAll();
     }//GEN-LAST:event_butCancelActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        try {
+            fillTable("SELECT * FROM `staffposition` WHERE description like '%"+txtSearch.getText().toString()+"%'");
+            // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_txtSearchKeyReleased
 
     /**
      * @param args the command line arguments
