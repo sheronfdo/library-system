@@ -8,9 +8,13 @@ package library;
 import com.library.db.DBConnect;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -21,11 +25,50 @@ public class Position extends javax.swing.JFrame {
     /**
      * Creates new form Position
      */
-    public Position() {
-        initComponents();
-        setToTable();
-    }
     
+    int id;
+    String description;
+    int employee;
+    int member;
+    int author;
+    int publisher;
+    int position;
+    int book;
+    int bookCheckout;
+    int bookReturn;
+    int bookRenew;
+    
+    public Position() throws ClassNotFoundException, SQLException {
+        initComponents();
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
+        setToTable();
+        fillTable();
+    }
+    DefaultTableModel tableModel;
+
+    public void fillTable() throws ClassNotFoundException, SQLException {
+        ResultSet rs = DBConnect.getFromDB("select * from staffposition");
+        tableModel = (DefaultTableModel) posTable.getModel();
+        tableModel.setRowCount(0);
+        while (rs.next()) {
+            Vector v = new Vector();
+            v.add(rs.getInt("posID"));
+            v.add(rs.getString("description"));
+            v.add(rs.getInt("employee"));
+            v.add(rs.getInt("member"));
+            v.add(rs.getInt("author"));
+            v.add(rs.getInt("publisher"));
+            v.add(rs.getInt("position"));
+            v.add(rs.getInt("book"));
+            v.add(rs.getInt("checkout"));
+            v.add(rs.getInt("return"));
+            v.add(rs.getInt("renew"));
+            v.add(rs.getInt("status"));
+
+            tableModel.addRow(v);
+        }
+    }
+
     public void setToTable() {
         posTable.getTableHeader().setFont(new Font("Segoe UI", Font.PLAIN, 11));
         posTable.getTableHeader().setOpaque(false);
@@ -106,6 +149,11 @@ public class Position extends javax.swing.JFrame {
         butDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butDelete.setMinimumSize(new java.awt.Dimension(75, 25));
         butDelete.setPreferredSize(new java.awt.Dimension(80, 30));
+        butDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butDeleteActionPerformed(evt);
+            }
+        });
 
         butEdit.setBackground(new java.awt.Color(255, 204, 0));
         butEdit.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -268,13 +316,18 @@ public class Position extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Description", "Status", "Employee", "Member", "Author", "Publisher", "Staff Position", "Book", "Book Checkout", "Book Return", "Book  Renew"
+                "ID", "Description", "Employee", "Member", "Author", "Publisher", "Staff Position", "Book", "Book Checkout", "Book Return", "Book  Renew", "Status"
             }
         ));
         posTable.setFocusable(false);
         posTable.setRowHeight(25);
         posTable.setSelectionBackground(new java.awt.Color(255, 153, 0));
         posTable.setShowVerticalLines(false);
+        posTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                posTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(posTable);
 
         javax.swing.GroupLayout tablePanelLayout = new javax.swing.GroupLayout(tablePanel);
@@ -344,23 +397,24 @@ public class Position extends javax.swing.JFrame {
 
     private void butInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInsertActionPerformed
         String description = txtDescription.getText();
-        int employee = (cBoxEmployee.isSelected())? 1:0;
-        int member = (cBoxMember.isSelected())? 1:0;
-        int author = (cBoxAuthor.isSelected())? 1:0;
-        int publisher = (cBoxPublisher.isSelected())? 1:0;
-        int position = (cBoxPosition.isSelected())? 1:0;
-        int book = (cBoxBook.isSelected())? 1:0;
-        int bookCheckout = (cBoxCheckout.isSelected())? 1:0;
-        int bookReturn = (cBoxReturn.isSelected())? 1:0;
-        int bookRenew = (cBoxRenew.isSelected())? 1:0;
-        
+        int employee = (cBoxEmployee.isSelected()) ? 1 : 0;
+        int member = (cBoxMember.isSelected()) ? 1 : 0;
+        int author = (cBoxAuthor.isSelected()) ? 1 : 0;
+        int publisher = (cBoxPublisher.isSelected()) ? 1 : 0;
+        int position = (cBoxPosition.isSelected()) ? 1 : 0;
+        int book = (cBoxBook.isSelected()) ? 1 : 0;
+        int bookCheckout = (cBoxCheckout.isSelected()) ? 1 : 0;
+        int bookReturn = (cBoxReturn.isSelected()) ? 1 : 0;
+        int bookRenew = (cBoxRenew.isSelected()) ? 1 : 0;
+
         String sql = "INSERT INTO `staffposition`(`description`, `employee`,"
                 + " `member`, `author`, `publisher`, `position`, `book`, `checkout`,"
                 + " `return`, `renew`) "
-                + "VALUES ('"+description+"',"+employee+","+member+","+author+","+publisher+","+position+""
-                + ","+book+","+bookCheckout+","+bookReturn+","+bookRenew+")";
+                + "VALUES ('" + description + "'," + employee + "," + member + "," + author + "," + publisher + "," + position + ""
+                + "," + book + "," + bookCheckout + "," + bookReturn + "," + bookRenew + ")";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Position inserted");
 // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
@@ -368,6 +422,35 @@ public class Position extends javax.swing.JFrame {
             Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_butInsertActionPerformed
+
+    private void posTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_posTableMouseClicked
+        id = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 0).toString());
+        description = tableModel.getValueAt(posTable.getSelectedRow(), 1).toString();
+        employee = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 2).toString());
+        member = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 3).toString());
+        author = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 4).toString());
+        publisher = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 5).toString());
+        position = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 6).toString());
+        book = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 7).toString());
+        bookCheckout = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 8).toString());
+        bookReturn = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 9).toString());
+        bookRenew = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 10).toString());
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_posTableMouseClicked
+
+    private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
+        try {
+            DBConnect.pushToDB("DELETE FROM `staffposition` WHERE posID="+id);
+            JOptionPane.showMessageDialog(this, "Position deleted");
+            fillTable();
+            // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -399,7 +482,13 @@ public class Position extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Position().setVisible(true);
+                try {
+                    new Position().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

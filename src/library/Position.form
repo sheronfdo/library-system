@@ -235,6 +235,9 @@
                   <Dimension value="[80, 30]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butDeleteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="butEdit">
               <Properties>
@@ -558,7 +561,6 @@
                       <Table columnCount="12" rowCount="0">
                         <Column editable="true" title="ID" type="java.lang.Object"/>
                         <Column editable="true" title="Description" type="java.lang.Object"/>
-                        <Column editable="true" title="Status" type="java.lang.Object"/>
                         <Column editable="true" title="Employee" type="java.lang.Object"/>
                         <Column editable="true" title="Member" type="java.lang.Object"/>
                         <Column editable="true" title="Author" type="java.lang.Object"/>
@@ -568,6 +570,7 @@
                         <Column editable="true" title="Book Checkout" type="java.lang.Object"/>
                         <Column editable="true" title="Book Return" type="java.lang.Object"/>
                         <Column editable="true" title="Book  Renew" type="java.lang.Object"/>
+                        <Column editable="true" title="Status" type="java.lang.Object"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -644,6 +647,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="posTableMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
