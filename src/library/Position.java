@@ -173,6 +173,11 @@ public class Position extends javax.swing.JFrame {
         butCancel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butCancel.setMinimumSize(new java.awt.Dimension(75, 25));
         butCancel.setPreferredSize(new java.awt.Dimension(80, 30));
+        butCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Accessbility", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
@@ -401,16 +406,16 @@ public class Position extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void butInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInsertActionPerformed
-        String description = txtDescription.getText();
-        int employee = (cBoxEmployee.isSelected()) ? 1 : 0;
-        int member = (cBoxMember.isSelected()) ? 1 : 0;
-        int author = (cBoxAuthor.isSelected()) ? 1 : 0;
-        int publisher = (cBoxPublisher.isSelected()) ? 1 : 0;
-        int position = (cBoxPosition.isSelected()) ? 1 : 0;
-        int book = (cBoxBook.isSelected()) ? 1 : 0;
-        int bookCheckout = (cBoxCheckout.isSelected()) ? 1 : 0;
-        int bookReturn = (cBoxReturn.isSelected()) ? 1 : 0;
-        int bookRenew = (cBoxRenew.isSelected()) ? 1 : 0;
+        description = txtDescription.getText();
+        employee = (cBoxEmployee.isSelected()) ? 1 : 0;
+        member = (cBoxMember.isSelected()) ? 1 : 0;
+        author = (cBoxAuthor.isSelected()) ? 1 : 0;
+        publisher = (cBoxPublisher.isSelected()) ? 1 : 0;
+        position = (cBoxPosition.isSelected()) ? 1 : 0;
+        book = (cBoxBook.isSelected()) ? 1 : 0;
+        bookCheckout = (cBoxCheckout.isSelected()) ? 1 : 0;
+        bookReturn = (cBoxReturn.isSelected()) ? 1 : 0;
+        bookRenew = (cBoxRenew.isSelected()) ? 1 : 0;
 
         String sql = "INSERT INTO `staffposition`(`description`, `employee`,"
                 + " `member`, `author`, `publisher`, `position`, `book`, `checkout`,"
@@ -420,6 +425,7 @@ public class Position extends javax.swing.JFrame {
         try {
             DBConnect.pushToDB(sql);
             JOptionPane.showMessageDialog(this, "Position inserted");
+            fillTable();
 // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
@@ -468,16 +474,16 @@ public class Position extends javax.swing.JFrame {
     }//GEN-LAST:event_butDeleteActionPerformed
 
     private void butEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEditActionPerformed
-        String description = txtDescription.getText();
-        int employee = (cBoxEmployee.isSelected()) ? 1 : 0;
-        int member = (cBoxMember.isSelected()) ? 1 : 0;
-        int author = (cBoxAuthor.isSelected()) ? 1 : 0;
-        int publisher = (cBoxPublisher.isSelected()) ? 1 : 0;
-        int position = (cBoxPosition.isSelected()) ? 1 : 0;
-        int book = (cBoxBook.isSelected()) ? 1 : 0;
-        int bookCheckout = (cBoxCheckout.isSelected()) ? 1 : 0;
-        int bookReturn = (cBoxReturn.isSelected()) ? 1 : 0;
-        int bookRenew = (cBoxRenew.isSelected()) ? 1 : 0;
+        description = txtDescription.getText();
+        employee = (cBoxEmployee.isSelected()) ? 1 : 0;
+        member = (cBoxMember.isSelected()) ? 1 : 0;
+        author = (cBoxAuthor.isSelected()) ? 1 : 0;
+        publisher = (cBoxPublisher.isSelected()) ? 1 : 0;
+        position = (cBoxPosition.isSelected()) ? 1 : 0;
+        book = (cBoxBook.isSelected()) ? 1 : 0;
+        bookCheckout = (cBoxCheckout.isSelected()) ? 1 : 0;
+        bookReturn = (cBoxReturn.isSelected()) ? 1 : 0;
+        bookRenew = (cBoxRenew.isSelected()) ? 1 : 0;
 
         String sql = "UPDATE `staffposition` SET `description`='"+description+"',"
                 + "`employee`="+employee+",`member`="+member+",`author`="+author+",`publisher`="+publisher+","
@@ -494,6 +500,30 @@ public class Position extends javax.swing.JFrame {
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_butEditActionPerformed
+
+    private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
+        txtDescription.setText("");
+        cBoxEmployee.setSelected(false);
+        cBoxMember.setSelected(false);
+        cBoxAuthor.setSelected(false);
+        cBoxPublisher.setSelected(false);
+        cBoxPosition.setSelected(false);
+        cBoxBook.setSelected(true);
+        cBoxCheckout.setSelected(true);
+        cBoxReturn.setSelected(true);
+        cBoxRenew.setSelected(true);
+        
+        description = null;
+        employee = 0;
+        member = 0;
+        author = 0;
+        publisher = 0;
+        position = 0;
+        book = 0;
+        bookCheckout = 0;
+        bookReturn = 0;
+        bookRenew = 0;
+    }//GEN-LAST:event_butCancelActionPerformed
 
     /**
      * @param args the command line arguments
