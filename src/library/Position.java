@@ -512,7 +512,8 @@ public class Position extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_butEditActionPerformed
 
-    public void clearAll(){
+    public void clearAll() throws ClassNotFoundException, SQLException{
+        txtSearch.setText("");
         txtDescription.setText("");
         cBoxEmployee.setSelected(false);
         cBoxMember.setSelected(false);
@@ -535,10 +536,17 @@ public class Position extends javax.swing.JFrame {
         bookCheckout = 0;
         bookReturn = 0;
         bookRenew = 0;
+        fillTable(null);
     }
     
     private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
-        clearAll();
+        try {
+            clearAll();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_butCancelActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
