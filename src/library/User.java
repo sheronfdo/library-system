@@ -320,10 +320,10 @@ public class User extends javax.swing.JFrame {
         int status = (radioButActive.isSelected()) ? 1 : 0;
         String sql;
         if (password.equals("d41d8cd98f00b204e9800998ecf8427e")) {
-            sql = "UPDATE `userprofile` SET `userName`='" + userName + "',`status`='" 
+            sql = "UPDATE `userprofile` SET `userName`='" + userName + "',`status`='"
                     + status + "' WHERE `empID`='" + empId + "'";
         } else {
-            sql = "UPDATE `userprofile` SET `userName`='" + userName + "',`password`='" 
+            sql = "UPDATE `userprofile` SET `userName`='" + userName + "',`password`='"
                     + password + "',`status`='" + status + "' WHERE `empID`='" + empId + "'";
         }
         try {
@@ -335,12 +335,14 @@ public class User extends javax.swing.JFrame {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_butEditActionPerformed
-    public void clearAll() throws ClassNotFoundException, SQLException{
+    
+    public void clearAll() throws ClassNotFoundException, SQLException {
         loadEmployeeCombo();
         txtName.setText("");
         txtPassword.setText("");
         radioButActive.setSelected(true);
     }
+    
     private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
         try {
             clearAll();        // TODO add your handling code here:
