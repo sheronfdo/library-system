@@ -5,6 +5,15 @@
  */
 package library;
 
+import com.library.db.DBConnect;
+import com.library.encrypt.MD5;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author Jamit
@@ -14,9 +23,20 @@ public class User extends javax.swing.JFrame {
     /**
      * Creates new form User
      */
-    public User() {
+    public User() throws ClassNotFoundException, SQLException {
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
+        loadEmployeeCombo();
+    }
+
+    public void loadEmployeeCombo() throws ClassNotFoundException, SQLException {
+        ResultSet rs = DBConnect.getFromDB("select empID,name from employee where status=1");
+        Vector v = new Vector();
+        while (rs.next()) {
+            String data = rs.getInt("empID") + " - " + rs.getString("name");
+            v.add(data);
+        }
+        comboEmployee.setModel(new DefaultComboBoxModel(v));
     }
 
     /**
@@ -28,27 +48,28 @@ public class User extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
         userName = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         formPanel = new javax.swing.JPanel();
-        txtAddress = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
         butInsert = new javax.swing.JButton();
         butDelete = new javax.swing.JButton();
         butEdit = new javax.swing.JButton();
         butCancel = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        comboEmployee = new javax.swing.JComboBox<>();
         genderPanel = new javax.swing.JPanel();
-        radioButFemale = new javax.swing.JRadioButton();
-        radioButMale = new javax.swing.JRadioButton();
+        radioButInactive = new javax.swing.JRadioButton();
+        radioButActive = new javax.swing.JRadioButton();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Libra 1.0 - User Management");
-        setPreferredSize(new java.awt.Dimension(410, 600));
+        setPreferredSize(new java.awt.Dimension(439, 620));
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
+        mainPanel.setPreferredSize(new java.awt.Dimension(400, 580));
 
         userName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         userName.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/account .png"))); // NOI18N
@@ -63,9 +84,7 @@ public class User extends javax.swing.JFrame {
 
         formPanel.setBackground(new java.awt.Color(255, 255, 255));
         formPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 153, 0), 3), "User Information"));
-
-        txtAddress.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtAddress.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Default Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        formPanel.setPreferredSize(new java.awt.Dimension(370, 523));
 
         txtName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtName.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
@@ -76,6 +95,11 @@ public class User extends javax.swing.JFrame {
         butInsert.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butInsert.setMinimumSize(new java.awt.Dimension(75, 25));
         butInsert.setPreferredSize(new java.awt.Dimension(80, 30));
+        butInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butInsertActionPerformed(evt);
+            }
+        });
 
         butDelete.setBackground(new java.awt.Color(255, 204, 0));
         butDelete.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -83,6 +107,11 @@ public class User extends javax.swing.JFrame {
         butDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butDelete.setMinimumSize(new java.awt.Dimension(75, 25));
         butDelete.setPreferredSize(new java.awt.Dimension(80, 30));
+        butDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butDeleteActionPerformed(evt);
+            }
+        });
 
         butEdit.setBackground(new java.awt.Color(255, 204, 0));
         butEdit.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -90,6 +119,11 @@ public class User extends javax.swing.JFrame {
         butEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butEdit.setMinimumSize(new java.awt.Dimension(75, 25));
         butEdit.setPreferredSize(new java.awt.Dimension(80, 30));
+        butEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butEditActionPerformed(evt);
+            }
+        });
 
         butCancel.setBackground(new java.awt.Color(255, 204, 0));
         butCancel.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -97,19 +131,31 @@ public class User extends javax.swing.JFrame {
         butCancel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butCancel.setMinimumSize(new java.awt.Dimension(75, 25));
         butCancel.setPreferredSize(new java.awt.Dimension(80, 30));
+        butCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelActionPerformed(evt);
+            }
+        });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee" }));
-        jComboBox2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)), "Employee"));
-        jComboBox2.setPreferredSize(new java.awt.Dimension(98, 45));
+        comboEmployee.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Employee" }));
+        comboEmployee.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)), "Employee"));
+        comboEmployee.setPreferredSize(new java.awt.Dimension(98, 45));
+        comboEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboEmployeeActionPerformed(evt);
+            }
+        });
 
         genderPanel.setBackground(new java.awt.Color(255, 255, 255));
         genderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Is Active"));
 
-        radioButFemale.setBackground(new java.awt.Color(255, 255, 255));
-        radioButFemale.setText("Inactive");
+        radioButInactive.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(radioButInactive);
+        radioButInactive.setText("Inactive");
 
-        radioButMale.setBackground(new java.awt.Color(255, 255, 255));
-        radioButMale.setText("Active");
+        radioButActive.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(radioButActive);
+        radioButActive.setText("Active");
 
         javax.swing.GroupLayout genderPanelLayout = new javax.swing.GroupLayout(genderPanel);
         genderPanel.setLayout(genderPanelLayout);
@@ -117,17 +163,20 @@ public class User extends javax.swing.JFrame {
             genderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, genderPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(radioButMale)
+                .addComponent(radioButActive)
                 .addGap(55, 55, 55)
-                .addComponent(radioButFemale)
+                .addComponent(radioButInactive)
                 .addContainerGap())
         );
         genderPanelLayout.setVerticalGroup(
             genderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(genderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(radioButMale)
-                .addComponent(radioButFemale))
+                .addComponent(radioButActive)
+                .addComponent(radioButInactive))
         );
+
+        txtPassword.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Default Password"));
 
         javax.swing.GroupLayout formPanelLayout = new javax.swing.GroupLayout(formPanel);
         formPanel.setLayout(formPanelLayout);
@@ -136,30 +185,32 @@ public class User extends javax.swing.JFrame {
             .addGroup(formPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtName)
-                    .addComponent(txtAddress)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(genderPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(formPanelLayout.createSequentialGroup()
                         .addComponent(butInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addComponent(butDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(butEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(butCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(0, 8, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formPanelLayout.createSequentialGroup()
+                        .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(genderPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtName, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboEmployee, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         formPanelLayout.setVerticalGroup(
             formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(comboEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(genderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -168,7 +219,7 @@ public class User extends javax.swing.JFrame {
                     .addComponent(butDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(265, Short.MAX_VALUE))
+                .addContainerGap(263, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -183,7 +234,7 @@ public class User extends javax.swing.JFrame {
                         .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(formPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(formPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
@@ -192,35 +243,113 @@ public class User extends javax.swing.JFrame {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(formPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(formPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
                 .addContainerGap())
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void butInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInsertActionPerformed
+        int empId = Integer.parseInt(comboEmployee.getSelectedItem().toString().split(" - ")[0]);
+        String userName = txtName.getText();
+        String password = MD5.getMd5(new String(txtPassword.getPassword()));
+        int status = (radioButActive.isSelected()) ? 1 : 0;
+
+        String sql = "INSERT INTO `userprofile`(`userName`, `password`, `empID`, `status`)"
+                + " VALUES ('" + userName + "','" + password + "'," + empId + "," + status + ")";
+        try {
+            DBConnect.pushToDB(sql);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butInsertActionPerformed
+
+    private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
+        int empId = Integer.parseInt(comboEmployee.getSelectedItem().toString().split(" - ")[0]);
+        String sql = "UPDATE `userprofile` SET `status`=0 WHERE `empID`='" + empId + "'";
+        try {
+            DBConnect.pushToDB(sql);
+// TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butDeleteActionPerformed
+
+    private void comboEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEmployeeActionPerformed
+        int empId = Integer.parseInt(comboEmployee.getSelectedItem().toString().split(" - ")[0]);
+        String sql = "select * from userprofile where empid = " + Integer.toString(empId);
+        try {
+            ResultSet rs = DBConnect.getFromDB(sql);
+            if (rs.next()) {
+                txtName.setText(rs.getString("userName"));
+                if (rs.getInt("status") == 0) {
+                    radioButInactive.setSelected(true);
+                }
+                if (rs.getInt("status") == 1) {
+                    radioButActive.setSelected(true);
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_comboEmployeeActionPerformed
+
+    private void butEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEditActionPerformed
+        int empId = Integer.parseInt(comboEmployee.getSelectedItem().toString().split(" - ")[0]);
+        String userName = txtName.getText();
+        String password = MD5.getMd5(new String(txtPassword.getPassword()));
+        int status = (radioButActive.isSelected()) ? 1 : 0;
+        String sql;
+        if (password.equals("d41d8cd98f00b204e9800998ecf8427e")) {
+            sql = "UPDATE `userprofile` SET `userName`='" + userName + "',`status`='" 
+                    + status + "' WHERE `empID`='" + empId + "'";
+        } else {
+            sql = "UPDATE `userprofile` SET `userName`='" + userName + "',`password`='" 
+                    + password + "',`status`='" + status + "' WHERE `empID`='" + empId + "'";
+        }
+        try {
+            DBConnect.pushToDB(sql);
+            // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butEditActionPerformed
+    public void clearAll() throws ClassNotFoundException, SQLException{
+        loadEmployeeCombo();
+        txtName.setText("");
+        txtPassword.setText("");
+        radioButActive.setSelected(true);
+    }
+    private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
+        try {
+            clearAll();        // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,7 +381,13 @@ public class User extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new User().setVisible(true);
+                try {
+                    new User().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -262,16 +397,16 @@ public class User extends javax.swing.JFrame {
     private javax.swing.JButton butDelete;
     private javax.swing.JButton butEdit;
     private javax.swing.JButton butInsert;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> comboEmployee;
     private javax.swing.JPanel formPanel;
     private javax.swing.JPanel genderPanel;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JRadioButton radioButFemale;
-    private javax.swing.JRadioButton radioButMale;
+    private javax.swing.JRadioButton radioButActive;
+    private javax.swing.JRadioButton radioButInactive;
     private javax.swing.JLabel title;
-    private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtName;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JLabel userName;
     // End of variables declaration//GEN-END:variables
 }
