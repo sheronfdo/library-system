@@ -367,6 +367,9 @@
                   <Dimension value="[80, 30]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butInsertActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="butDelete">
               <Properties>
@@ -391,6 +394,9 @@
                   <Dimension value="[80, 30]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butDeleteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="butEdit">
               <Properties>
@@ -415,6 +421,9 @@
                   <Dimension value="[80, 30]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butEditActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="butCancel">
               <Properties>
@@ -439,6 +448,9 @@
                   <Dimension value="[80, 30]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="butCancelActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="comboPosition">
               <Properties>
@@ -530,6 +542,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSearchKeyReleased"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
@@ -619,6 +634,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="empTableMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
