@@ -5,8 +5,15 @@
  */
 package library;
 
+import com.library.db.DBConnect;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,15 +21,45 @@ import java.awt.Font;
  */
 public class Publisher extends javax.swing.JFrame {
 
+    DefaultTableModel tableModel;
+    String id;
+    String name;
+    String address;
+    String telephoneNo;
+    String email;
+    String regNo;
+    String status;
+
     /**
      * Creates new form Publisher
      */
-    public Publisher() {
+    public Publisher() throws ClassNotFoundException, SQLException {
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
+        fillTable(null);
     }
-    
+
+    public void fillTable(String sql) throws ClassNotFoundException, SQLException {
+        tableModel = (DefaultTableModel) pubTable.getModel();
+        tableModel.setRowCount(0);
+        if(sql == null){
+        sql = "select * from publisher where status=1";}
+        ResultSet rs = DBConnect.getFromDB(sql);
+        while (rs.next()) {
+            Vector v = new Vector();
+            v.add(rs.getInt("pubID"));
+            v.add(rs.getString("name"));
+            v.add(rs.getString("address"));
+            v.add(rs.getString("telephoneNo"));
+            v.add(rs.getString("regNo"));
+            v.add(rs.getString("email"));
+            v.add(rs.getString("status"));
+            tableModel.addRow(v);
+        }
+
+    }
+
     public void setToTable() {
         pubTable.getTableHeader().setFont(new Font("Segoe UI", Font.PLAIN, 11));
         pubTable.getTableHeader().setOpaque(false);
@@ -46,8 +83,7 @@ public class Publisher extends javax.swing.JFrame {
         txtAddress = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
         txtTelephone = new javax.swing.JTextField();
-        txtDOB = new javax.swing.JTextField();
-        txtNIC = new javax.swing.JTextField();
+        txtReg = new javax.swing.JTextField();
         butInsert = new javax.swing.JButton();
         butDelete = new javax.swing.JButton();
         butEdit = new javax.swing.JButton();
@@ -86,11 +122,8 @@ public class Publisher extends javax.swing.JFrame {
         txtTelephone.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtTelephone.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Telephone No", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
-        txtDOB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtDOB.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Date Of Birth", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
-
-        txtNIC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtNIC.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "NIC", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        txtReg.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtReg.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Register No", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
         butInsert.setBackground(new java.awt.Color(255, 204, 0));
         butInsert.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -98,6 +131,11 @@ public class Publisher extends javax.swing.JFrame {
         butInsert.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butInsert.setMinimumSize(new java.awt.Dimension(75, 25));
         butInsert.setPreferredSize(new java.awt.Dimension(80, 30));
+        butInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butInsertActionPerformed(evt);
+            }
+        });
 
         butDelete.setBackground(new java.awt.Color(255, 204, 0));
         butDelete.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -105,6 +143,11 @@ public class Publisher extends javax.swing.JFrame {
         butDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butDelete.setMinimumSize(new java.awt.Dimension(75, 25));
         butDelete.setPreferredSize(new java.awt.Dimension(80, 30));
+        butDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butDeleteActionPerformed(evt);
+            }
+        });
 
         butEdit.setBackground(new java.awt.Color(255, 204, 0));
         butEdit.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -112,6 +155,11 @@ public class Publisher extends javax.swing.JFrame {
         butEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butEdit.setMinimumSize(new java.awt.Dimension(75, 25));
         butEdit.setPreferredSize(new java.awt.Dimension(80, 30));
+        butEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butEditActionPerformed(evt);
+            }
+        });
 
         butCancel.setBackground(new java.awt.Color(255, 204, 0));
         butCancel.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -119,6 +167,11 @@ public class Publisher extends javax.swing.JFrame {
         butCancel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butCancel.setMinimumSize(new java.awt.Dimension(75, 25));
         butCancel.setPreferredSize(new java.awt.Dimension(80, 30));
+        butCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelActionPerformed(evt);
+            }
+        });
 
         txtEmail.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Email", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
@@ -133,18 +186,17 @@ public class Publisher extends javax.swing.JFrame {
                     .addComponent(txtName)
                     .addComponent(txtAddress)
                     .addComponent(txtTelephone)
-                    .addComponent(txtNIC)
-                    .addComponent(txtDOB)
+                    .addComponent(txtReg)
                     .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(formPanelLayout.createSequentialGroup()
                         .addComponent(butInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(butDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(butEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(butCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(butCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         formPanelLayout.setVerticalGroup(
@@ -159,9 +211,7 @@ public class Publisher extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNIC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDOB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtReg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(butInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,6 +226,11 @@ public class Publisher extends javax.swing.JFrame {
 
         txtSearch.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         pubTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         pubTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -183,13 +238,18 @@ public class Publisher extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Address", "Telephone", "Email", "NIC", "Birthday", "Status"
+                "ID", "Name", "Address", "Telephone", "Reg No", "Email", "Status"
             }
         ));
         pubTable.setFocusable(false);
         pubTable.setRowHeight(25);
         pubTable.setSelectionBackground(new java.awt.Color(255, 153, 0));
         pubTable.setShowVerticalLines(false);
+        pubTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pubTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(pubTable);
 
         javax.swing.GroupLayout tablePanelLayout = new javax.swing.GroupLayout(tablePanel);
@@ -257,6 +317,118 @@ public class Publisher extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void clearAll() throws ClassNotFoundException, SQLException {
+        fillTable(null);
+        txtName.setText("");
+        txtAddress.setText("");
+        txtTelephone.setText("");
+        txtReg.setText("");
+        txtEmail.setText("");
+        txtSearch.setText("");
+
+        id = null;
+        name = null;
+        address = null;
+        telephoneNo = null;
+        email = null;
+        regNo = null;
+        status = null;
+    }
+    private void butInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInsertActionPerformed
+        name = txtName.getText();
+        address = txtAddress.getText();
+        telephoneNo = txtTelephone.getText();
+        email = txtEmail.getText();
+        regNo = txtReg.getText();
+
+        String sql = "insert into publisher(name,address,telephoneNo,regNo,email) values"
+                + "('" + name + "','" + address + "','" + telephoneNo + "','" + regNo + "','" + email + "')";
+        try {
+            DBConnect.pushToDB(sql);
+            clearAll();
+            // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butInsertActionPerformed
+
+    private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
+        try {
+            clearAll();
+// TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butCancelActionPerformed
+
+    private void pubTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pubTableMouseClicked
+        id = tableModel.getValueAt(pubTable.getSelectedRow(), 0).toString();
+        name = tableModel.getValueAt(pubTable.getSelectedRow(), 1).toString();
+        address = tableModel.getValueAt(pubTable.getSelectedRow(), 2).toString();
+        telephoneNo = tableModel.getValueAt(pubTable.getSelectedRow(), 3).toString();
+        email = tableModel.getValueAt(pubTable.getSelectedRow(), 5).toString();
+        regNo = tableModel.getValueAt(pubTable.getSelectedRow(), 4).toString();
+        status = tableModel.getValueAt(pubTable.getSelectedRow(), 6).toString();
+
+        txtName.setText(name);
+        txtAddress.setText(address);
+        txtTelephone.setText(telephoneNo);
+        txtEmail.setText(email);
+        txtReg.setText(regNo);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pubTableMouseClicked
+
+    private void butEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEditActionPerformed
+        name = txtName.getText();
+        address = txtAddress.getText();
+        telephoneNo = txtTelephone.getText();
+        email = txtEmail.getText();
+        regNo = txtReg.getText();
+
+        String sql = "UPDATE `publisher` SET `name`='" + name + "',"
+                + "`address`='" + address + "',`telephoneNo`='" + telephoneNo + "',`regNo`='" + regNo + "',"
+                + "`email`='" + email + "' WHERE `pubID`='" + id + "'";
+        
+        try {
+            DBConnect.pushToDB(sql);
+            clearAll();
+            
+            // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butEditActionPerformed
+
+    private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
+        String sql = "UPDATE `publisher` SET `status`=0 WHERE `pubID`='"+id+"'";
+        try {
+            DBConnect.pushToDB(sql);
+            clearAll();
+            // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butDeleteActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        try { 
+            fillTable("SELECT * FROM `publisher` WHERE name like '%"+txtSearch.getText().toString()+"%'");
+            // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_txtSearchKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -268,7 +440,7 @@ public class Publisher extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -287,7 +459,13 @@ public class Publisher extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Publisher().setVisible(true);
+                try {
+                    new Publisher().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -304,10 +482,9 @@ public class Publisher extends javax.swing.JFrame {
     private javax.swing.JPanel tablePanel;
     private javax.swing.JLabel title;
     private javax.swing.JTextField txtAddress;
-    private javax.swing.JTextField txtDOB;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtNIC;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtReg;
     private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtTelephone;
     private javax.swing.JLabel userName;
