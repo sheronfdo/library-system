@@ -5,8 +5,15 @@
  */
 package library;
 
+import com.library.db.DBConnect;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -14,13 +21,49 @@ import java.awt.Font;
  */
 public class Author extends javax.swing.JFrame {
 
+    DefaultTableModel aurModel;
+    String id;
+    String name;
+    String address;
+    String telephoneNo;
+    String nic;
+    String dob;
+    String gender;
+    String email;
+    String status;
+
     /**
      * Creates new form Author
      */
-    public Author() {
+    public Author() throws ClassNotFoundException, SQLException {
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
+        fillTable(null);
+    }
+
+    public void fillTable(String sql) throws ClassNotFoundException, SQLException {
+        aurModel = (DefaultTableModel) autTable.getModel();
+        aurModel.setRowCount(0);
+        if (sql == null) {
+            sql = "select * from author where status = 1";
+        }
+        ResultSet rs = DBConnect.getFromDB(sql);
+        while (rs.next()) {
+            Vector v = new Vector();
+            v.add(rs.getInt("aurID"));
+            v.add(rs.getString("name"));
+            v.add(rs.getString("address"));
+            v.add(rs.getString("telephoneNo"));
+            v.add(rs.getString("email"));
+            v.add(rs.getString("nic"));
+            v.add(rs.getString("dob"));
+            v.add(rs.getString("gender"));
+            v.add(rs.getInt("status"));
+
+            aurModel.addRow(v);
+        }
+
     }
 
     public void setToTable() {
@@ -39,6 +82,7 @@ public class Author extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         mainPanel = new javax.swing.JPanel();
         userName = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
@@ -99,9 +143,11 @@ public class Author extends javax.swing.JFrame {
         genderPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Gender"));
 
         radioButFemale.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(radioButFemale);
         radioButFemale.setText("FEMALE");
 
         radioButMale.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(radioButMale);
         radioButMale.setText("MALE");
 
         javax.swing.GroupLayout genderPanelLayout = new javax.swing.GroupLayout(genderPanel);
@@ -128,6 +174,11 @@ public class Author extends javax.swing.JFrame {
         butInsert.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butInsert.setMinimumSize(new java.awt.Dimension(75, 25));
         butInsert.setPreferredSize(new java.awt.Dimension(80, 30));
+        butInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butInsertActionPerformed(evt);
+            }
+        });
 
         butDelete.setBackground(new java.awt.Color(255, 204, 0));
         butDelete.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -135,6 +186,11 @@ public class Author extends javax.swing.JFrame {
         butDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butDelete.setMinimumSize(new java.awt.Dimension(75, 25));
         butDelete.setPreferredSize(new java.awt.Dimension(80, 30));
+        butDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butDeleteActionPerformed(evt);
+            }
+        });
 
         butEdit.setBackground(new java.awt.Color(255, 204, 0));
         butEdit.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -142,6 +198,11 @@ public class Author extends javax.swing.JFrame {
         butEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butEdit.setMinimumSize(new java.awt.Dimension(75, 25));
         butEdit.setPreferredSize(new java.awt.Dimension(80, 30));
+        butEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butEditActionPerformed(evt);
+            }
+        });
 
         butCancel.setBackground(new java.awt.Color(255, 204, 0));
         butCancel.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -149,6 +210,11 @@ public class Author extends javax.swing.JFrame {
         butCancel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         butCancel.setMinimumSize(new java.awt.Dimension(75, 25));
         butCancel.setPreferredSize(new java.awt.Dimension(80, 30));
+        butCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butCancelActionPerformed(evt);
+            }
+        });
 
         txtEmail.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtEmail.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Email", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
@@ -209,6 +275,11 @@ public class Author extends javax.swing.JFrame {
 
         txtSearch.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtSearch.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0), 2), "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
 
         autTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 204, 0)));
         autTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -223,6 +294,11 @@ public class Author extends javax.swing.JFrame {
         autTable.setRowHeight(25);
         autTable.setSelectionBackground(new java.awt.Color(255, 153, 0));
         autTable.setShowVerticalLines(false);
+        autTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                autTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(autTable);
 
         javax.swing.GroupLayout tablePanelLayout = new javax.swing.GroupLayout(tablePanel);
@@ -290,6 +366,117 @@ public class Author extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void clearAll() throws ClassNotFoundException, SQLException {
+        txtName.setText("");
+        txtAddress.setText("");
+        txtTelephone.setText("");
+        txtNIC.setText("");
+        txtDOB.setText("");
+        radioButMale.setSelected(true);
+        txtEmail.setText("");
+        txtSearch.setText("");
+        fillTable(null);
+    }
+
+    private void butInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInsertActionPerformed
+        name = txtName.getText();
+        address = txtAddress.getText();
+        telephoneNo = txtTelephone.getText();
+        nic = txtNIC.getText();
+        dob = txtDOB.getText();
+        gender = (radioButMale.isSelected()) ? "M" : "F";
+        email = txtEmail.getText();
+        String sql = "INSERT INTO `author`(`name`, `address`, `telephoneNo`,"
+                + " `nic`, `gender`, `dob`, `email`) VALUES ('" + name + "','" + address + "',"
+                + "'" + telephoneNo + "','" + nic + "','" + gender + "','" + dob + "','" + email + "')";
+        try {
+            DBConnect.pushToDB(sql);
+            clearAll();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_butInsertActionPerformed
+
+    private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
+        try {
+            clearAll();        // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butCancelActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        try {
+            fillTable("SELECT * FROM `author` WHERE name like '%" + txtSearch.getText().toString() + "%'");
+            // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void autTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_autTableMouseClicked
+        id = aurModel.getValueAt(autTable.getSelectedRow(), 0).toString();
+        name = aurModel.getValueAt(autTable.getSelectedRow(), 1).toString();
+        address = aurModel.getValueAt(autTable.getSelectedRow(), 2).toString();
+        telephoneNo = aurModel.getValueAt(autTable.getSelectedRow(), 3).toString();
+        email = aurModel.getValueAt(autTable.getSelectedRow(), 4).toString();
+        nic = aurModel.getValueAt(autTable.getSelectedRow(), 5).toString();
+        dob = aurModel.getValueAt(autTable.getSelectedRow(), 6).toString();
+        gender = aurModel.getValueAt(autTable.getSelectedRow(), 7).toString();
+        status = aurModel.getValueAt(autTable.getSelectedRow(), 8).toString();
+
+        txtName.setText(name);
+        txtAddress.setText(address);
+        txtTelephone.setText(telephoneNo);
+        txtEmail.setText(email);
+        txtNIC.setText(nic);
+        txtDOB.setText(dob);
+        if (gender.equals("M")) {
+            radioButMale.setSelected(true);
+        } else {
+            radioButFemale.setSelected(true);
+        }
+    }//GEN-LAST:event_autTableMouseClicked
+
+    private void butEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEditActionPerformed
+        name = txtName.getText();
+        address = txtAddress.getText();
+        telephoneNo = txtTelephone.getText();
+        nic = txtNIC.getText();
+        dob = txtDOB.getText();
+        gender = (radioButMale.isSelected()) ? "M" : "F";
+        email = txtEmail.getText();
+        String sql = "UPDATE `author` SET `name`='" + name + "',`address`='" + address + "',"
+                + "`telephoneNo`='" + telephoneNo + "',`nic`='" + nic + "',`gender`='" + gender + "',`dob`='" + dob + "',"
+                + "`email`='" + email + "' WHERE `aurID`=" + id + "";
+        try {
+            DBConnect.pushToDB(sql);
+            clearAll();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butEditActionPerformed
+
+    private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
+        String sql = "UPDATE `author` SET `status`=0 WHERE `aurID`=" + id + "";
+        try {
+            DBConnect.pushToDB(sql);
+            clearAll();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butDeleteActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -301,7 +488,7 @@ public class Author extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -320,7 +507,13 @@ public class Author extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Author().setVisible(true);
+                try {
+                    new Author().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Author.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -331,6 +524,7 @@ public class Author extends javax.swing.JFrame {
     private javax.swing.JButton butDelete;
     private javax.swing.JButton butEdit;
     private javax.swing.JButton butInsert;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel formPanel;
     private javax.swing.JPanel genderPanel;
     private javax.swing.JScrollPane jScrollPane1;
