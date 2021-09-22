@@ -272,6 +272,7 @@ public class User extends javax.swing.JFrame {
                 + " VALUES ('" + userName + "','" + password + "'," + empId + "," + status + ")";
         try {
             DBConnect.pushToDB(sql);
+            clearAll();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -284,6 +285,7 @@ public class User extends javax.swing.JFrame {
         String sql = "UPDATE `userprofile` SET `status`=0 WHERE `empID`='" + empId + "'";
         try {
             DBConnect.pushToDB(sql);
+            clearAll();
 // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
@@ -328,6 +330,7 @@ public class User extends javax.swing.JFrame {
         }
         try {
             DBConnect.pushToDB(sql);
+            clearAll();
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
@@ -335,14 +338,14 @@ public class User extends javax.swing.JFrame {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_butEditActionPerformed
-    
+
     public void clearAll() throws ClassNotFoundException, SQLException {
         loadEmployeeCombo();
         txtName.setText("");
         txtPassword.setText("");
         radioButActive.setSelected(true);
     }
-    
+
     private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
         try {
             clearAll();        // TODO add your handling code here:
