@@ -37,6 +37,7 @@ public class Author extends javax.swing.JFrame {
      */
     public Author() throws ClassNotFoundException, SQLException {
         initComponents();
+        userName.setText(UserProfile.username);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
         fillTable(null);
@@ -105,7 +106,7 @@ public class Author extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         autTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Libra 1.0 - Author");
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));

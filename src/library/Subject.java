@@ -31,6 +31,7 @@ public class Subject extends javax.swing.JFrame {
      */
     public Subject() throws ClassNotFoundException, SQLException {
         initComponents();
+        userName.setText(UserProfile.username);
         setToTable();
         fillTable(null);
     }
@@ -89,7 +90,7 @@ public class Subject extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         subTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Libra 1.0 - Subjects");
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -302,7 +303,7 @@ public class Subject extends javax.swing.JFrame {
     }//GEN-LAST:event_butInsertActionPerformed
 
     private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
-        String sql = "UPDATE `subject` SET `status`=0 WHERE `subID`="+id+"";
+        String sql = "UPDATE `subject` SET `status`=0 WHERE `subID`=" + id + "";
         try {
             DBConnect.pushToDB(sql);
             clearAll();
@@ -315,7 +316,7 @@ public class Subject extends javax.swing.JFrame {
 
     private void butEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEditActionPerformed
         name = txtSubName.getText();
-        String sql = "UPDATE `subject` SET `description`='"+name+"' WHERE `subID`="+id+"";
+        String sql = "UPDATE `subject` SET `description`='" + name + "' WHERE `subID`=" + id + "";
         try {
             DBConnect.pushToDB(sql);
             clearAll();
@@ -351,7 +352,7 @@ public class Subject extends javax.swing.JFrame {
         id = subModel.getValueAt(subTable.getSelectedRow(), 0).toString();
         name = subModel.getValueAt(subTable.getSelectedRow(), 1).toString();
         status = subModel.getValueAt(subTable.getSelectedRow(), 2).toString();
-        
+
         txtSubName.setText(name);
         // TODO add your handling code here:
     }//GEN-LAST:event_subTableMouseClicked

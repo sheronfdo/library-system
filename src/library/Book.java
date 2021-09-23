@@ -39,6 +39,7 @@ public class Book extends javax.swing.JFrame {
      */
     public Book() throws ClassNotFoundException, SQLException {
         initComponents();
+        userName.setText(UserProfile.userPosition);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
         loadAuthor();
@@ -151,7 +152,7 @@ public class Book extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         bookTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Libre 1.0 - Book");
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -501,9 +502,9 @@ public class Book extends javax.swing.JFrame {
         subject = comboSubject.getSelectedItem().toString().split(" - ")[0];
         value = txtValue.getText();
 
-        String sql = "UPDATE `book` SET `title`='"+bookTitle+"',`edition`='"+edition+"',"
-                + "`aurID`='"+author+"',`subID`='"+subject+"',`pubID`='"+publisher+"',`quantity`='"+quantity+"',"
-                + "`isbn`='"+isbn+"',`value`='"+value+"' WHERE `bookID`='"+id+"'";
+        String sql = "UPDATE `book` SET `title`='" + bookTitle + "',`edition`='" + edition + "',"
+                + "`aurID`='" + author + "',`subID`='" + subject + "',`pubID`='" + publisher + "',`quantity`='" + quantity + "',"
+                + "`isbn`='" + isbn + "',`value`='" + value + "' WHERE `bookID`='" + id + "'";
         try {
             DBConnect.pushToDB(sql);
             clearAll();
@@ -517,7 +518,7 @@ public class Book extends javax.swing.JFrame {
     }//GEN-LAST:event_butEditActionPerformed
 
     private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
-        String sql = "UPDATE `book` SET `status`=0 WHERE `bookID`='"+id+"'";
+        String sql = "UPDATE `book` SET `status`=0 WHERE `bookID`='" + id + "'";
         try {
             DBConnect.pushToDB(sql);
             clearAll();

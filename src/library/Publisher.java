@@ -35,6 +35,7 @@ public class Publisher extends javax.swing.JFrame {
      */
     public Publisher() throws ClassNotFoundException, SQLException {
         initComponents();
+        userName.setText(UserProfile.username);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
         fillTable(null);
@@ -43,8 +44,9 @@ public class Publisher extends javax.swing.JFrame {
     public void fillTable(String sql) throws ClassNotFoundException, SQLException {
         tableModel = (DefaultTableModel) pubTable.getModel();
         tableModel.setRowCount(0);
-        if(sql == null){
-        sql = "select * from publisher where status=1";}
+        if (sql == null) {
+            sql = "select * from publisher where status=1";
+        }
         ResultSet rs = DBConnect.getFromDB(sql);
         while (rs.next()) {
             Vector v = new Vector();
@@ -94,7 +96,7 @@ public class Publisher extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         pubTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Libra 1.0 - Publisher");
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -392,11 +394,11 @@ public class Publisher extends javax.swing.JFrame {
         String sql = "UPDATE `publisher` SET `name`='" + name + "',"
                 + "`address`='" + address + "',`telephoneNo`='" + telephoneNo + "',`regNo`='" + regNo + "',"
                 + "`email`='" + email + "' WHERE `pubID`='" + id + "'";
-        
+
         try {
             DBConnect.pushToDB(sql);
             clearAll();
-            
+
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);
@@ -406,7 +408,7 @@ public class Publisher extends javax.swing.JFrame {
     }//GEN-LAST:event_butEditActionPerformed
 
     private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
-        String sql = "UPDATE `publisher` SET `status`=0 WHERE `pubID`='"+id+"'";
+        String sql = "UPDATE `publisher` SET `status`=0 WHERE `pubID`='" + id + "'";
         try {
             DBConnect.pushToDB(sql);
             clearAll();
@@ -419,8 +421,8 @@ public class Publisher extends javax.swing.JFrame {
     }//GEN-LAST:event_butDeleteActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-        try { 
-            fillTable("SELECT * FROM `publisher` WHERE name like '%"+txtSearch.getText().toString()+"%'");
+        try {
+            fillTable("SELECT * FROM `publisher` WHERE name like '%" + txtSearch.getText().toString() + "%'");
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Publisher.class.getName()).log(Level.SEVERE, null, ex);

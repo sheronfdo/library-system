@@ -25,6 +25,7 @@ public class User extends javax.swing.JFrame {
      */
     public User() throws ClassNotFoundException, SQLException {
         initComponents();
+        userName.setText(UserProfile.username);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         loadEmployeeCombo();
     }
@@ -64,7 +65,7 @@ public class User extends javax.swing.JFrame {
         radioButActive = new javax.swing.JRadioButton();
         txtPassword = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Libra 1.0 - User Management");
         setPreferredSize(new java.awt.Dimension(439, 620));
 

@@ -25,7 +25,6 @@ public class Position extends javax.swing.JFrame {
     /**
      * Creates new form Position
      */
-    
     int id;
     String description;
     int employee;
@@ -37,17 +36,20 @@ public class Position extends javax.swing.JFrame {
     int bookCheckout;
     int bookReturn;
     int bookRenew;
-    
+    int subject;
+    int user;
+
     public Position() throws ClassNotFoundException, SQLException {
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
+        userName.setText(UserProfile.username);
         setToTable();
         fillTable(null);
     }
     DefaultTableModel tableModel;
 
     public void fillTable(String sql) throws ClassNotFoundException, SQLException {
-        if(sql == null){
+        if (sql == null) {
             sql = "select * from staffposition";
         }
         ResultSet rs = DBConnect.getFromDB(sql);
@@ -66,6 +68,8 @@ public class Position extends javax.swing.JFrame {
             v.add(rs.getInt("checkout"));
             v.add(rs.getInt("return"));
             v.add(rs.getInt("renew"));
+            v.add(rs.getInt("subject"));
+            v.add(rs.getInt("user"));
             v.add(rs.getInt("status"));
 
             tableModel.addRow(v);
@@ -107,12 +111,14 @@ public class Position extends javax.swing.JFrame {
         cBoxPosition = new javax.swing.JCheckBox();
         cBoxBook = new javax.swing.JCheckBox();
         cBoxRenew = new javax.swing.JCheckBox();
+        cBoxSubject = new javax.swing.JCheckBox();
+        cBoxUser = new javax.swing.JCheckBox();
         tablePanel = new javax.swing.JPanel();
         txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         posTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Libra 1.0 - Staff Positions");
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -234,6 +240,16 @@ public class Position extends javax.swing.JFrame {
         cBoxRenew.setText("Book Renew");
         cBoxRenew.setIconTextGap(10);
 
+        cBoxSubject.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxSubject.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxSubject.setText("Subject");
+        cBoxSubject.setIconTextGap(10);
+
+        cBoxUser.setBackground(new java.awt.Color(255, 255, 255));
+        cBoxUser.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cBoxUser.setText("User");
+        cBoxUser.setIconTextGap(10);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -242,20 +258,24 @@ public class Position extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cBoxBook, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cBoxPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cBoxRenew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cBoxReturn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cBoxCheckout, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                                 .addComponent(cBoxPublisher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(cBoxAuthor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(cBoxMember, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cBoxEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(cBoxEmployee, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cBoxUser)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cBoxRenew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cBoxReturn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cBoxCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cBoxBook, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cBoxSubject))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,6 +291,10 @@ public class Position extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cBoxPosition)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cBoxUser)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cBoxSubject)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cBoxBook)
                 .addGap(3, 3, 3)
                 .addComponent(cBoxCheckout)
@@ -278,7 +302,7 @@ public class Position extends javax.swing.JFrame {
                 .addComponent(cBoxReturn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cBoxRenew)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout formPanelLayout = new javax.swing.GroupLayout(formPanel);
@@ -308,13 +332,13 @@ public class Position extends javax.swing.JFrame {
                 .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(butInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(butCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         tablePanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -334,7 +358,7 @@ public class Position extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Description", "Employee", "Member", "Author", "Publisher", "Staff Position", "Book", "Book Checkout", "Book Return", "Book  Renew", "Status"
+                "ID", "Description", "Employee", "Member", "Author", "Publisher", "Staff Position", "Book", "Book Checkout", "Book Return", "Book  Renew", "Subject", "User", "Status"
             }
         ));
         posTable.setFocusable(false);
@@ -424,12 +448,14 @@ public class Position extends javax.swing.JFrame {
         bookCheckout = (cBoxCheckout.isSelected()) ? 1 : 0;
         bookReturn = (cBoxReturn.isSelected()) ? 1 : 0;
         bookRenew = (cBoxRenew.isSelected()) ? 1 : 0;
+        subject = (cBoxSubject.isSelected()) ? 1 : 0;
+        user = (cBoxUser.isSelected()) ? 1 : 0;
 
         String sql = "INSERT INTO `staffposition`(`description`, `employee`,"
                 + " `member`, `author`, `publisher`, `position`, `book`, `checkout`,"
-                + " `return`, `renew`) "
+                + " `return`, `renew` , `subject`, `user`) "
                 + "VALUES ('" + description + "'," + employee + "," + member + "," + author + "," + publisher + "," + position + ""
-                + "," + book + "," + bookCheckout + "," + bookReturn + "," + bookRenew + ")";
+                + "," + book + "," + bookCheckout + "," + bookReturn + "," + bookRenew + "," + subject + "," + user + ")";
         try {
             DBConnect.pushToDB(sql);
             JOptionPane.showMessageDialog(this, "Position inserted");
@@ -455,6 +481,8 @@ public class Position extends javax.swing.JFrame {
         bookCheckout = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 8).toString());
         bookReturn = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 9).toString());
         bookRenew = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 10).toString());
+        subject = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 11).toString());
+        user = Integer.parseInt(tableModel.getValueAt(posTable.getSelectedRow(), 12).toString());
         
         txtDescription.setText(description);
         cBoxEmployee.setSelected((employee == 1));
@@ -466,12 +494,14 @@ public class Position extends javax.swing.JFrame {
         cBoxCheckout.setSelected((bookCheckout == 1));
         cBoxReturn.setSelected((bookReturn == 1));
         cBoxRenew.setSelected((bookRenew == 1));
+        cBoxSubject.setSelected((subject == 1));
+        cBoxUser.setSelected((user == 1));
         // TODO add your handling code here:
     }//GEN-LAST:event_posTableMouseClicked
 
     private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
         try {
-            DBConnect.pushToDB("DELETE FROM `staffposition` WHERE posID="+id);
+            DBConnect.pushToDB("DELETE FROM `staffposition` WHERE posID=" + id);
             JOptionPane.showMessageDialog(this, "Position deleted");
             fillTable(null);
             clearAll();
@@ -495,10 +525,10 @@ public class Position extends javax.swing.JFrame {
         bookReturn = (cBoxReturn.isSelected()) ? 1 : 0;
         bookRenew = (cBoxRenew.isSelected()) ? 1 : 0;
 
-        String sql = "UPDATE `staffposition` SET `description`='"+description+"',"
-                + "`employee`="+employee+",`member`="+member+",`author`="+author+",`publisher`="+publisher+","
-                + "`position`="+position+",`book`="+book+",`checkout`="+bookCheckout+",`return`="+bookReturn+","
-                + "`renew`="+bookRenew+" WHERE `posID`="+id+"";
+        String sql = "UPDATE `staffposition` SET `description`='" + description + "',"
+                + "`employee`=" + employee + ",`member`=" + member + ",`author`=" + author + ",`publisher`=" + publisher + ","
+                + "`position`=" + position + ",`book`=" + book + ",`checkout`=" + bookCheckout + ",`return`=" + bookReturn + ","
+                + "`renew`=" + bookRenew + "`subject`=" + subject + "`user`=" + user + " WHERE `posID`=" + id + "";
         try {
             DBConnect.pushToDB(sql);
             JOptionPane.showMessageDialog(this, "Position Updated");
@@ -512,7 +542,7 @@ public class Position extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_butEditActionPerformed
 
-    public void clearAll() throws ClassNotFoundException, SQLException{
+    public void clearAll() throws ClassNotFoundException, SQLException {
         txtSearch.setText("");
         txtDescription.setText("");
         cBoxEmployee.setSelected(false);
@@ -524,7 +554,7 @@ public class Position extends javax.swing.JFrame {
         cBoxCheckout.setSelected(true);
         cBoxReturn.setSelected(true);
         cBoxRenew.setSelected(true);
-        
+
         id = 0;
         description = null;
         employee = 0;
@@ -538,7 +568,7 @@ public class Position extends javax.swing.JFrame {
         bookRenew = 0;
         fillTable(null);
     }
-    
+
     private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
         try {
             clearAll();
@@ -551,7 +581,7 @@ public class Position extends javax.swing.JFrame {
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         try {
-            fillTable("SELECT * FROM `staffposition` WHERE description like '%"+txtSearch.getText().toString()+"%'");
+            fillTable("SELECT * FROM `staffposition` WHERE description like '%" + txtSearch.getText().toString() + "%'");
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);
@@ -615,6 +645,8 @@ public class Position extends javax.swing.JFrame {
     private javax.swing.JCheckBox cBoxPublisher;
     private javax.swing.JCheckBox cBoxRenew;
     private javax.swing.JCheckBox cBoxReturn;
+    private javax.swing.JCheckBox cBoxSubject;
+    private javax.swing.JCheckBox cBoxUser;
     private javax.swing.JPanel formPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

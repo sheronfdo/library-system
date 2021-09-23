@@ -38,7 +38,7 @@ public class Employee extends javax.swing.JFrame {
      */
     public Employee() throws ClassNotFoundException, SQLException {
         initComponents();
-
+        userName.setText(UserProfile.username);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
         loadPosition();
@@ -48,8 +48,8 @@ public class Employee extends javax.swing.JFrame {
     public void fillTable(String sql) throws ClassNotFoundException, SQLException {
         empModel = (DefaultTableModel) empTable.getModel();
         empModel.setRowCount(0);
-        if(sql == null){
-        sql = "select * from employee where status=1";
+        if (sql == null) {
+            sql = "select * from employee where status=1";
         }
         ResultSet rs = DBConnect.getFromDB(sql);
         while (rs.next()) {
@@ -117,7 +117,7 @@ public class Employee extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         empTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Libra 1.0 - Employee");
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -486,7 +486,7 @@ public class Employee extends javax.swing.JFrame {
         String sql = "UPDATE `employee` SET `name`='" + name + "',"
                 + "`address`='" + address + "',`telephoneNo`='" + telephoneNo + "',`nic`='" + nic + "',"
                 + "`gender`='" + gender + "',`dob`='" + dob + "',`posID`='" + position + "'"
-                + " WHERE `empID`=" + id+"";
+                + " WHERE `empID`=" + id + "";
         try {
             DBConnect.pushToDB(sql);
             clearAll();
@@ -501,7 +501,7 @@ public class Employee extends javax.swing.JFrame {
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         try {
-            fillTable("SELECT * FROM `employee` WHERE name like '%"+txtSearch.getText().toString()+"%'");
+            fillTable("SELECT * FROM `employee` WHERE name like '%" + txtSearch.getText().toString() + "%'");
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Position.class.getName()).log(Level.SEVERE, null, ex);

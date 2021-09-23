@@ -37,6 +37,7 @@ public class Member extends javax.swing.JFrame {
      */
     public Member() throws ClassNotFoundException, SQLException {
         initComponents();
+        userName.setText(UserProfile.username);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
         fillTable(null);
@@ -116,7 +117,7 @@ public class Member extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         memTable = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Libra 1.0 - Member");
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -383,7 +384,7 @@ public class Member extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void memTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_memTableKeyReleased
-        
+
     }//GEN-LAST:event_memTableKeyReleased
 
     private void memTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_memTableMouseClicked
@@ -440,7 +441,7 @@ public class Member extends javax.swing.JFrame {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_butInsertActionPerformed
 

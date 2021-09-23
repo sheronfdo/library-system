@@ -5,10 +5,13 @@
  */
 package library;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,15 +23,15 @@ public class Home extends javax.swing.JFrame {
      * Creates new form Home
      */
     public Home() {
-        
+        runDateTime();
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
-        runDateTime();
+        labelUsername.setText(UserProfile.username);
     }
     Timer mytimer = new Timer();
-    TimerTask task = new TimerTask(){
+    TimerTask task = new TimerTask() {
         @Override
-        public void run(){
+        public void run() {
             Date d = new Date();
             SimpleDateFormat s = new SimpleDateFormat("hh:mm:ss");
             time.setText(s.format(d));
@@ -36,9 +39,10 @@ public class Home extends javax.swing.JFrame {
             date.setText(k.format(d));
         }
     };
-    public void runDateTime(){
+
+    public void runDateTime() {
         mytimer.scheduleAtFixedRate(task, 1000, 1000);
-        
+
     }
 
     /**
@@ -50,18 +54,30 @@ public class Home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton6 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        labelUsername = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         time = new javax.swing.JLabel();
         date = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        butPublisher = new javax.swing.JButton();
+        butAuthor = new javax.swing.JButton();
+        butEmployee = new javax.swing.JButton();
+        butMember = new javax.swing.JButton();
+        butSubject = new javax.swing.JButton();
+        butBook = new javax.swing.JButton();
+        butIssue = new javax.swing.JButton();
+        butUser = new javax.swing.JButton();
+        butUPosition = new javax.swing.JButton();
+        butSubject2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
+
+        jButton6.setBackground(new java.awt.Color(255, 204, 153));
+        jButton6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton6.setText("Member");
+        jButton6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Libra 1.0 - Home");
@@ -75,9 +91,9 @@ public class Home extends javax.swing.JFrame {
         jLabel1.setText("Libra 1.0");
         jLabel1.setOpaque(true);
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/account .png"))); // NOI18N
-        jLabel2.setText("   USERNAME");
+        labelUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelUsername.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/account .png"))); // NOI18N
+        labelUsername.setText("   USERNAME");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -93,25 +109,120 @@ public class Home extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 153, 0));
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 153));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setText("Publisher");
-        jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butPublisher.setBackground(new java.awt.Color(255, 204, 153));
+        butPublisher.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butPublisher.setText("Publisher");
+        butPublisher.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butPublisher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butPublisherMouseClicked(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 153));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setText("Author");
-        jButton2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butAuthor.setBackground(new java.awt.Color(255, 204, 153));
+        butAuthor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butAuthor.setText("Author");
+        butAuthor.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butAuthor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butAuthorMouseClicked(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(255, 204, 153));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setText("Employee");
-        jButton3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butEmployee.setBackground(new java.awt.Color(255, 204, 153));
+        butEmployee.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butEmployee.setText("Employee");
+        butEmployee.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butEmployee.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butEmployeeMouseClicked(evt);
+            }
+        });
 
-        jButton4.setBackground(new java.awt.Color(255, 204, 153));
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton4.setText("Member");
-        jButton4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butMember.setBackground(new java.awt.Color(255, 204, 153));
+        butMember.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butMember.setText("Member");
+        butMember.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butMember.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butMemberMouseClicked(evt);
+            }
+        });
+
+        butSubject.setBackground(new java.awt.Color(255, 204, 153));
+        butSubject.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butSubject.setText("Subject");
+        butSubject.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butSubject.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butSubjectMouseClicked(evt);
+            }
+        });
+        butSubject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butSubjectActionPerformed(evt);
+            }
+        });
+
+        butBook.setBackground(new java.awt.Color(255, 204, 153));
+        butBook.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butBook.setText("Book");
+        butBook.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butBookMouseClicked(evt);
+            }
+        });
+
+        butIssue.setBackground(new java.awt.Color(255, 204, 153));
+        butIssue.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butIssue.setText("Book Issue");
+        butIssue.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butIssue.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butIssueMouseClicked(evt);
+            }
+        });
+        butIssue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butIssueActionPerformed(evt);
+            }
+        });
+
+        butUser.setBackground(new java.awt.Color(255, 204, 153));
+        butUser.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butUser.setText("User");
+        butUser.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butUserMouseClicked(evt);
+            }
+        });
+
+        butUPosition.setBackground(new java.awt.Color(255, 204, 153));
+        butUPosition.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butUPosition.setText("User Position");
+        butUPosition.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butUPosition.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butUPositionMouseClicked(evt);
+            }
+        });
+
+        butSubject2.setBackground(new java.awt.Color(255, 204, 153));
+        butSubject2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butSubject2.setText("Book Return");
+        butSubject2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butSubject2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butSubject2MouseClicked(evt);
+            }
+        });
+        butSubject2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butSubject2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -120,23 +231,41 @@ public class Home extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
+                    .addComponent(butMember, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(butAuthor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(butPublisher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(butEmployee, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(butSubject, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(butBook, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(butUPosition, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(butIssue, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(butUser, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(butSubject2, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(butAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butPublisher, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butMember, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butBook, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butUPosition, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butUser, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butIssue, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butSubject2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -160,7 +289,7 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 634, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -175,7 +304,7 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
+                    .addComponent(labelUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -197,6 +326,142 @@ public class Home extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void butSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSubjectActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butSubjectActionPerformed
+
+    private void butAuthorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butAuthorMouseClicked
+        try {
+            if (UserProfile.author) {
+                new Author().setVisible(true);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butAuthorMouseClicked
+
+    private void butPublisherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butPublisherMouseClicked
+        try {
+            if (UserProfile.publisher) {
+                new Publisher().setVisible(true);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butPublisherMouseClicked
+
+    private void butEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butEmployeeMouseClicked
+        try {
+            if (UserProfile.employee) {
+                new Employee().setVisible(true);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butEmployeeMouseClicked
+
+    private void butMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butMemberMouseClicked
+        try {
+            if (UserProfile.member) {
+                new Member().setVisible(true);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butMemberMouseClicked
+
+    private void butBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butBookMouseClicked
+        try {
+            if (UserProfile.book) {
+                new Book().setVisible(true);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butBookMouseClicked
+
+    private void butSubjectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butSubjectMouseClicked
+        try {
+            if (UserProfile.user) {
+                new Subject().setVisible(true);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butSubjectMouseClicked
+
+    private void butIssueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butIssueMouseClicked
+
+        try {
+            if (UserProfile.checkout) {
+                new bookIssue().setVisible(true);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butIssueMouseClicked
+
+    private void butIssueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butIssueActionPerformed
+        try {
+            if (UserProfile.checkout) {
+                new bookIssue().setVisible(true);
+            }
+// TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butIssueActionPerformed
+
+    private void butUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butUserMouseClicked
+        try {
+            if (UserProfile.user) {
+                new User().setVisible(true);        // TODO add your handling code here:
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butUserMouseClicked
+
+    private void butUPositionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butUPositionMouseClicked
+        try {
+            if (UserProfile.positionManage) {
+                new Position().setVisible(true);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butUPositionMouseClicked
+
+    private void butSubject2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butSubject2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butSubject2MouseClicked
+
+    private void butSubject2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSubject2ActionPerformed
+        new BookReturn().setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_butSubject2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -234,17 +499,24 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton butAuthor;
+    private javax.swing.JButton butBook;
+    private javax.swing.JButton butEmployee;
+    private javax.swing.JButton butIssue;
+    private javax.swing.JButton butMember;
+    private javax.swing.JButton butPublisher;
+    private javax.swing.JButton butSubject;
+    private javax.swing.JButton butSubject2;
+    private javax.swing.JButton butUPosition;
+    private javax.swing.JButton butUser;
     private javax.swing.JLabel date;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel labelUsername;
     private javax.swing.JLabel time;
     // End of variables declaration//GEN-END:variables
 }
