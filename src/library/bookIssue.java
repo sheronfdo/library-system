@@ -27,6 +27,8 @@ DefaultTableModel memModel;
      */
     public bookIssue() throws ClassNotFoundException, SQLException {
         initComponents();
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
+        userName.setText(UserProfile.username);
         setToTable();
         fillBookTable(null);
         fillMemTable(null);
