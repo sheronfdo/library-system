@@ -24,6 +24,7 @@ public class UserInfo extends javax.swing.JFrame {
     public UserInfo() {
         initComponents();
         setDetails();
+        setLocationRelativeTo(null);
     }
 
     public void setDetails() {

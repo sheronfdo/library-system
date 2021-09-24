@@ -40,6 +40,7 @@ public class Book extends javax.swing.JFrame {
     public Book() throws ClassNotFoundException, SQLException {
         initComponents();
         userName.setText(UserProfile.userPosition);
+        setLocationRelativeTo(null);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
         loadAuthor();

@@ -40,6 +40,7 @@ public class Member extends javax.swing.JFrame {
         userName.setText(UserProfile.username);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         setToTable();
+        setLocationRelativeTo(null);
         fillTable(null);
     }
 

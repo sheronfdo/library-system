@@ -31,6 +31,7 @@ public class Home extends javax.swing.JFrame {
         labelUsername.setText(UserProfile.username);
         loadDashboard();
         setResizable(false);
+        setLocationRelativeTo(null);
     }
     Timer mytimer = new Timer();
     TimerTask task = new TimerTask() {

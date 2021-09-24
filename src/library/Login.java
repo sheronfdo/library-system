@@ -25,6 +25,7 @@ public class Login extends javax.swing.JFrame {
     public Login() throws ClassNotFoundException, SQLException {
         initComponents();
         DBConnect.connect();
+        setLocationRelativeTo(null);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
     }
 

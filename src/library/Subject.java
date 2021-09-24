@@ -32,6 +32,7 @@ public class Subject extends javax.swing.JFrame {
     public Subject() throws ClassNotFoundException, SQLException {
         initComponents();
         userName.setText(UserProfile.username);
+        setLocationRelativeTo(null);
         setToTable();
         fillTable(null);
     }

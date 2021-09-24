@@ -68,8 +68,6 @@ public class UserProfile {
             UserProfile.renew = (rs.getBoolean("renew")) ? true : false;
             UserProfile.subject = (rs.getBoolean("subject")) ? true : false;
             UserProfile.user = (rs.getBoolean("user")) ? true : false;
-            
-            
         }
         new Home().setVisible(true);
     }

@@ -43,6 +43,7 @@ public class Position extends javax.swing.JFrame {
         initComponents();
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         userName.setText(UserProfile.username);
+        setLocationRelativeTo(null);
         setToTable();
         fillTable(null);
     }

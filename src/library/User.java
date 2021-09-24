@@ -26,6 +26,7 @@ public class User extends javax.swing.JFrame {
     public User() throws ClassNotFoundException, SQLException {
         initComponents();
         userName.setText(UserProfile.username);
+        setLocationRelativeTo(null);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
         loadEmployeeCombo();
     }

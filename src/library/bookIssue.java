@@ -32,6 +32,7 @@ DefaultTableModel memModel;
         setToTable();
         fillBookTable(null);
         fillMemTable(null);
+        setLocationRelativeTo(null);
     }
     
     public void fillMemTable(String sql) throws ClassNotFoundException, SQLException {
