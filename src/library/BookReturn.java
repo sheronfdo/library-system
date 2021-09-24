@@ -24,6 +24,8 @@ public class BookReturn extends javax.swing.JFrame {
      */
     public BookReturn() {
         initComponents();
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/com/library/images/dictionary.png")).getImage());
+        userName.setText(UserProfile.username);
     }
 
     /**
