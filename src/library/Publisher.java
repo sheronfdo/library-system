@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -348,6 +349,7 @@ public class Publisher extends javax.swing.JFrame {
                 + "('" + name + "','" + address + "','" + telephoneNo + "','" + regNo + "','" + email + "')";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data inserted successfuly");
             clearAll();
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
@@ -398,6 +400,7 @@ public class Publisher extends javax.swing.JFrame {
 
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data edited successfuly");
             clearAll();
 
             // TODO add your handling code here:
@@ -412,6 +415,7 @@ public class Publisher extends javax.swing.JFrame {
         String sql = "UPDATE `publisher` SET `status`=0 WHERE `pubID`='" + id + "'";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data deleted successfuly");
             clearAll();
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {

@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -120,6 +121,11 @@ public class BookReturn extends javax.swing.JFrame {
         butInsert.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 butInsertMouseClicked(evt);
+            }
+        });
+        butInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butInsertActionPerformed(evt);
             }
         });
 
@@ -247,6 +253,7 @@ public class BookReturn extends javax.swing.JFrame {
         String sql = "insert into returnbook (`issueID`, `empID`)  VALUES (" + issueId + "," + UserProfile.empID + ")";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Book returned successfuly");
             clearAll();
 // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
@@ -255,6 +262,10 @@ public class BookReturn extends javax.swing.JFrame {
             Logger.getLogger(BookReturn.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_butInsertMouseClicked
+
+    private void butInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butInsertActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butInsertActionPerformed
 
     /**
      * @param args the command line arguments

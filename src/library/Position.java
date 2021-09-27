@@ -459,7 +459,7 @@ public class Position extends javax.swing.JFrame {
                 + "," + book + "," + bookCheckout + "," + bookReturn + "," + bookRenew + "," + subject + "," + user + ")";
         try {
             DBConnect.pushToDB(sql);
-            JOptionPane.showMessageDialog(this, "Position inserted");
+            JOptionPane.showMessageDialog(this, "Data inserted successfuly");
             fillTable(null);
             clearAll();
 // TODO add your handling code here:
@@ -503,7 +503,7 @@ public class Position extends javax.swing.JFrame {
     private void butDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butDeleteActionPerformed
         try {
             DBConnect.pushToDB("DELETE FROM `staffposition` WHERE posID=" + id);
-            JOptionPane.showMessageDialog(this, "Position deleted");
+            JOptionPane.showMessageDialog(this, "Data deleted successfuly");
             fillTable(null);
             clearAll();
             // TODO add your handling code here:
@@ -532,7 +532,7 @@ public class Position extends javax.swing.JFrame {
                 + "`renew`=" + bookRenew + "`subject`=" + subject + "`user`=" + user + " WHERE `posID`=" + id + "";
         try {
             DBConnect.pushToDB(sql);
-            JOptionPane.showMessageDialog(this, "Position Updated");
+            JOptionPane.showMessageDialog(this, "Data edited successfuly");
             fillTable(null);
             clearAll();
         } catch (ClassNotFoundException ex) {

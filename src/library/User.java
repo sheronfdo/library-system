@@ -13,6 +13,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -274,6 +275,7 @@ public class User extends javax.swing.JFrame {
                 + " VALUES ('" + userName + "','" + password + "'," + empId + "," + status + ")";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data inserted successfuly");
             clearAll();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
@@ -287,6 +289,7 @@ public class User extends javax.swing.JFrame {
         String sql = "UPDATE `userprofile` SET `status`=0 WHERE `empID`='" + empId + "'";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data deleted successfuly");
             clearAll();
 // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
@@ -332,6 +335,7 @@ public class User extends javax.swing.JFrame {
         }
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data edited successfuly");
             clearAll();
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {

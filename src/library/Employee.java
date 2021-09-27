@@ -14,6 +14,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -394,6 +395,7 @@ public class Employee extends javax.swing.JFrame {
                 + "'" + telephoneNo + "','" + nic + "','" + gender + "','" + dob + "'," + position + ")";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data inserted successfuly");
             clearAll();
 // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
@@ -445,6 +447,7 @@ public class Employee extends javax.swing.JFrame {
         String sql = "UPDATE `employee` SET `status`=0 WHERE `empID`=" + id;
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data deleted successfuly");
             clearAll();
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
@@ -490,6 +493,7 @@ public class Employee extends javax.swing.JFrame {
                 + " WHERE `empID`=" + id + "";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data edited successfuly");
             clearAll();
 // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {

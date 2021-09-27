@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -419,6 +420,7 @@ DefaultTableModel memModel;
         String sql = "INSERT INTO `issuebook`(`empID`, `bookID`, `memID`) VALUES ("+empID+","+bookID+","+memID+")";
     try {
         DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data Issued successfuly");
     } catch (ClassNotFoundException ex) {
         Logger.getLogger(bookIssue.class.getName()).log(Level.SEVERE, null, ex);
     } catch (SQLException ex) {

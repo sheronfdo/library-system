@@ -351,6 +351,8 @@ public class UserInfo extends javax.swing.JFrame {
             }
             try {
                 DBConnect.pushToDB(sql);
+                JOptionPane.showMessageDialog(this, "Data Changed successfuly");
+                clearAll();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
@@ -361,10 +363,14 @@ public class UserInfo extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_butEditActionPerformed
-
-    private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
-        txtRePassword.setText("");
+    
+    public void clearAll(){
+     txtRePassword.setText("");
         txtPassword.setText("");
+    }
+    
+    private void butCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butCancelActionPerformed
+       clearAll();
     }//GEN-LAST:event_butCancelActionPerformed
 
     /**

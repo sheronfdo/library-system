@@ -14,6 +14,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -412,6 +413,7 @@ public class Book extends javax.swing.JFrame {
                 + "" + author + "," + subject + "," + publisher + "," + quantity + ",'" + isbn + "'," + value + ")";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data inserted successfuly");
             clearAll();
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
@@ -508,6 +510,7 @@ public class Book extends javax.swing.JFrame {
                 + "`isbn`='" + isbn + "',`value`='" + value + "' WHERE `bookID`='" + id + "'";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data edited successfuly");
             clearAll();
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {
@@ -522,6 +525,7 @@ public class Book extends javax.swing.JFrame {
         String sql = "UPDATE `book` SET `status`=0 WHERE `bookID`='" + id + "'";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data deleted successfuly");
             clearAll();
             // TODO add your handling code here:
         } catch (ClassNotFoundException ex) {

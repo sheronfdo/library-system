@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -295,6 +296,7 @@ public class Subject extends javax.swing.JFrame {
         String sql = "INSERT INTO `subject`(`description`) VALUES ('" + name + "')";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data inserted successfuly");
             clearAll();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
@@ -307,6 +309,7 @@ public class Subject extends javax.swing.JFrame {
         String sql = "UPDATE `subject` SET `status`=0 WHERE `subID`=" + id + "";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data deleted successfuly");
             clearAll();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Subject.class.getName()).log(Level.SEVERE, null, ex);
@@ -320,6 +323,7 @@ public class Subject extends javax.swing.JFrame {
         String sql = "UPDATE `subject` SET `description`='" + name + "' WHERE `subID`=" + id + "";
         try {
             DBConnect.pushToDB(sql);
+            JOptionPane.showMessageDialog(this, "Data edited successfuly");
             clearAll();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Subject.class.getName()).log(Level.SEVERE, null, ex);
