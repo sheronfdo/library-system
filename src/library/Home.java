@@ -42,6 +42,13 @@ public class Home extends javax.swing.JFrame {
             time.setText(s.format(d));
             SimpleDateFormat k = new SimpleDateFormat("dd-MM-yyyy");
             date.setText(k.format(d));
+            try {
+                loadDashboard();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     };
     
@@ -133,7 +140,8 @@ public class Home extends javax.swing.JFrame {
         butIssue = new javax.swing.JButton();
         butUser = new javax.swing.JButton();
         butUPosition = new javax.swing.JButton();
-        butSubject2 = new javax.swing.JButton();
+        butBookReturn = new javax.swing.JButton();
+        butIssuedBook = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         labelTitleCount = new javax.swing.JLabel();
@@ -303,18 +311,33 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        butSubject2.setBackground(new java.awt.Color(255, 255, 255));
-        butSubject2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        butSubject2.setText("Book Return");
-        butSubject2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
-        butSubject2.addMouseListener(new java.awt.event.MouseAdapter() {
+        butBookReturn.setBackground(new java.awt.Color(255, 255, 255));
+        butBookReturn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butBookReturn.setText("Book Return");
+        butBookReturn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butBookReturn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                butSubject2MouseClicked(evt);
+                butBookReturnMouseClicked(evt);
             }
         });
-        butSubject2.addActionListener(new java.awt.event.ActionListener() {
+        butBookReturn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butSubject2ActionPerformed(evt);
+                butBookReturnActionPerformed(evt);
+            }
+        });
+
+        butIssuedBook.setBackground(new java.awt.Color(255, 255, 255));
+        butIssuedBook.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        butIssuedBook.setText("Issued Books");
+        butIssuedBook.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 0), 1, true));
+        butIssuedBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                butIssuedBookMouseClicked(evt);
+            }
+        });
+        butIssuedBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butIssuedBookActionPerformed(evt);
             }
         });
 
@@ -334,7 +357,8 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(butUPosition, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                     .addComponent(butIssue, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                     .addComponent(butUser, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addComponent(butSubject2, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
+                    .addComponent(butBookReturn, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(butIssuedBook, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -359,8 +383,10 @@ public class Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(butIssue, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(butSubject2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addComponent(butBookReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(butIssuedBook, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -860,18 +886,38 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_butUPositionMouseClicked
 
-    private void butSubject2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butSubject2MouseClicked
+    private void butBookReturnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butBookReturnMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_butSubject2MouseClicked
+    }//GEN-LAST:event_butBookReturnMouseClicked
 
-    private void butSubject2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butSubject2ActionPerformed
-        new BookReturn().setVisible(true);        // TODO add your handling code here:
-    }//GEN-LAST:event_butSubject2ActionPerformed
+    private void butBookReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBookReturnActionPerformed
+        try {
+            new BookReturn().setVisible(true);        // TODO add your handling code here:
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butBookReturnActionPerformed
 
     private void labelUsernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelUsernameMouseClicked
         new UserInfo().setVisible(true);
 // TODO add your handling code here:
     }//GEN-LAST:event_labelUsernameMouseClicked
+
+    private void butIssuedBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butIssuedBookMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_butIssuedBookMouseClicked
+
+    private void butIssuedBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butIssuedBookActionPerformed
+        try {
+            new IssuedBooks().setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_butIssuedBookActionPerformed
 
     /**
      * @param args the command line arguments
@@ -917,12 +963,13 @@ public class Home extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton butAuthor;
     private javax.swing.JButton butBook;
+    private javax.swing.JButton butBookReturn;
     private javax.swing.JButton butEmployee;
     private javax.swing.JButton butIssue;
+    private javax.swing.JButton butIssuedBook;
     private javax.swing.JButton butMember;
     private javax.swing.JButton butPublisher;
     private javax.swing.JButton butSubject;
-    private javax.swing.JButton butSubject2;
     private javax.swing.JButton butUPosition;
     private javax.swing.JButton butUser;
     private javax.swing.JLabel date;
