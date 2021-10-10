@@ -241,6 +241,8 @@ public class BookReturn extends javax.swing.JFrame {
                 labelEmployeeId.setText(Integer.toString(rs.getInt("empID")));
                 labelIssueDate.setText(rs.getTimestamp("issueDate").toString());
                 labelMemberId.setText(Integer.toString(rs.getInt("memID")));
+            }else{
+                JOptionPane.showMessageDialog(this, "No Book Issued from this ID");
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BookReturn.class.getName()).log(Level.SEVERE, null, ex);
@@ -250,9 +252,23 @@ public class BookReturn extends javax.swing.JFrame {
     }//GEN-LAST:event_butFindMouseClicked
 
     private void butInsertMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_butInsertMouseClicked
-        String sql = "insert into returnbook (`issueID`, `empID`)  VALUES (" + issueId + "," + UserProfile.empID + ")";
+        int bookId=0;
+        try{
+            String sql = "select bookID FROM issuebook WHERE issueID=("+issueId+")";
+            ResultSet rs = DBConnect.getFromDB(sql);
+            rs.next();
+            bookId = rs.getInt("bookID");
+        }catch (ClassNotFoundException ex) {
+            Logger.getLogger(BookReturn.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BookReturn.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String sql = "insert into returnbook (`issueID`, `empID`)  VALUES (" + issueId + "," + UserProfile.empID + ");";
+        String sql1 = "UPDATE `book` SET `quantity`=`quantity`+1 WHERE bookID="+bookId;
         try {
             DBConnect.pushToDB(sql);
+            DBConnect.pushToDB(sql1);
             JOptionPane.showMessageDialog(this, "Book returned successfuly");
             clearAll();
 // TODO add your handling code here:

@@ -417,10 +417,10 @@ DefaultTableModel memModel;
         int empID = UserProfile.empID;
         String bookID = labelBookId.getText().toString();
         String memID = labelMemberId.getText().toString();
-        String sql = "INSERT INTO `issuebook`(`empID`, `bookID`, `memID`) VALUES ("+empID+","+bookID+","+memID+")";
+        String sql = "INSERT INTO `issuebook`(`empID`, `bookID`, `memID`) VALUES ("+empID+","+bookID+","+memID+");UPDATE `book` SET `quantity`=`quantity`-1 WHERE bookID="+bookID+";";
     try {
         DBConnect.pushToDB(sql);
-            JOptionPane.showMessageDialog(this, "Data Issued successfuly");
+            JOptionPane.showMessageDialog(this, "Data Inserted and Book Issued successfuly");
     } catch (ClassNotFoundException ex) {
         Logger.getLogger(bookIssue.class.getName()).log(Level.SEVERE, null, ex);
     } catch (SQLException ex) {
