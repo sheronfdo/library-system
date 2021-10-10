@@ -215,6 +215,7 @@ public class IssuedBooks extends javax.swing.JFrame {
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         try {
             fillTable(txtSearch.getText().toString());
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(IssuedBooks.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
