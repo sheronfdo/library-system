@@ -7,6 +7,7 @@ package library;
 
 import com.library.db.DBConnect;
 import com.library.encrypt.MD5;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -18,6 +19,8 @@ import javax.swing.JOptionPane;
  * @author Jamit
  */
 public class Login extends javax.swing.JFrame {
+
+    PreparedStatement pState;
 
     /**
      * Creates new form Login
@@ -155,9 +158,11 @@ public class Login extends javax.swing.JFrame {
         String userName = txtUsername.getText();
         String password = new String(txtPassword.getPassword());
         password = MD5.getMd5(password);
-
         try {
-            ResultSet rs = DBConnect.getFromDB("SELECT empID,status,userName FROM `userprofile` WHERE userName='" + userName + "' and password='" + password + "'");
+            pState = DBConnect.getDBConnection().prepareStatement("SELECT empID,status,userName FROM `userprofile` WHERE userName=? and password=?");
+            pState.setString(1, userName);
+            pState.setString(2, password);
+            ResultSet rs = pState.executeQuery();
             if (rs.next()) {
                 if (rs.getInt("status") == 1) {
                     UserProfile.userDetail(rs.getInt("empId"), rs.getString("userName"));
@@ -171,6 +176,8 @@ public class Login extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_submitActionPerformed
