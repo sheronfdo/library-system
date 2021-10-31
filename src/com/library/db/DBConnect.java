@@ -22,7 +22,7 @@ public class DBConnect {
     
     public static void connect() throws ClassNotFoundException,SQLException{
         Class.forName("com.mysql.cj.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb","root","Jamith@5000");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb","root","password");
     }
     
     public static void pushToDB(String sql)throws ClassNotFoundException,SQLException{
